@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ArthSetu – Secure Smart Finance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ MOBILE SHELL ═══ -->
+<div class="app-wrapper">
+
+  <!-- ── PHONE FRAME ── -->
+  <div class="phone-frame" id="phoneFrame">
+    <div class="phone-notch"></div>
+    <div class="phone-screen" id="phoneScreen">
+
+      <!-- ════════════ PAGE 1 – LOGIN ════════════ -->
+      <div class="page active" id="page-login">
+        <div class="login-hero">
+          <div class="logo-wrap glow-pulse">
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+              <path d="M10 18 L18 8 L26 18 L22 18 L22 28 L14 28 L14 18 Z" fill="#fff"/>
+            </svg>
+          </div>
+          <p class="login-tagline">Secure smart finance access</p>
+        </div>
+
+        <div class="login-card glass-card">
+          <div class="field-group">
+            <label class="field-label">📱 Mobile Number</label>
+            <div class="phone-row">
+              <select class="country-select"><option>+91</option></select>
+              <input class="field-input" type="tel" placeholder="00000 00000" id="mobileInput"/>
+            </div>
+          </div>
+
+          <div class="divider-row"><span>or continue with email</span></div>
+
+          <div class="field-group">
+            <label class="field-label">✉ Email Address</label>
+            <input class="field-input" type="email" placeholder="name@example.com" id="emailInput"/>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">🔒 Security Verification</label>
+            <div class="captcha-row">
+              <div class="captcha-box">BX7TK2</div>
+              <input class="field-input captcha-input" type="text" placeholder="ENTER CAPTCHA" id="captchaInput"/>
+            </div>
+          </div>
+
+          <button class="btn-primary" id="loginBtn" onclick="goTo('page-profile')">
+            Enter Details to Continue
+          </button>
+          <p class="secure-note">🔒 END-TO-END ENCRYPTED CONNECTION</p>
+          <p class="tos-note">By continuing, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></p>
+        </div>
+      </div>
+
+      <!-- ════════════ PAGE 2 – COMPLETE PROFILE ════════════ -->
+      <div class="page" id="page-profile">
+        <div class="page-header">
+          <button class="back-btn" onclick="goTo('page-login')">←</button>
+          <h2 class="page-title">Complete Your Profile</h2>
+        </div>
+        <div class="scroll-area">
+          <p class="section-subtitle">These details help our AI engine personalize your budget and loan recommendations.</p>
+          <h3 class="section-heading">Personal Details</h3>
+
+          <div class="field-group">
+            <label class="field-label">Full Name</label>
+            <input class="field-input" type="text" placeholder="👤  Enter your full name" id="fullNameInput"/>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Username</label>
+            <input class="field-input" type="text" placeholder="@  choose_a_unique_id" id="usernameInput"/>
+            <span class="field-hint">Visible on your social finance feed.</span>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Email Address</label>
+            <input class="field-input" type="email" placeholder="✉  name@example.com" id="profileEmailInput"/>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Mobile Number</label>
+            <div class="phone-row">
+              <span class="phone-prefix">+91</span>
+              <input class="field-input" type="tel" placeholder="98765 43210" id="profileMobileInput"/>
+            </div>
+            <span class="field-hint verified">✅ Verified via OTP</span>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Monthly Income</label>
+            <input class="field-input" type="number" placeholder="₹  0.00" id="incomeInput"/>
+            <span class="field-hint">Used to calculate your daily spending capacity.</span>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Employment Type</label>
+            <select class="field-input">
+              <option>Salaried Professional</option>
+              <option>Self Employed</option>
+              <option>Business Owner</option>
+              <option>Student</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Risk Preference</label>
+            <div class="risk-labels"><span>CONSERVATIVE</span><span>MODERATE</span><span>AGGRESSIVE</span></div>
+            <input type="range" class="risk-slider" min="0" max="2" value="1" id="riskSlider"/>
+          </div>
+
+          <button class="btn-primary" onclick="goTo('page-main')">Save &amp; Continue →</button>
+        </div>
+      </div>
+
+      <!-- ════════════ PAGE 3 – MAIN EXPENSES ════════════ -->
+      <div class="page" id="page-main">
+        <div class="topbar">
+          <button class="menu-btn" onclick="toggleDrawer()">☰</button>
+          <span class="topbar-title">Expense</span>
+          <div class="topbar-actions">
+            <button class="icon-btn">＋</button>
+            <button class="icon-btn">⚙</button>
+          </div>
+        </div>
+
+        <div class="scroll-area">
+          <!-- Monthly summary card -->
+          <div class="summary-card gradient-blue">
+            <div class="summary-top">
+              <span class="summary-label">MONTHLY SPEND</span>
+              <span class="month-tag">March</span>
+            </div>
+            <div class="summary-amount">₹1,684.20</div>
+            <div class="budget-row">
+              <span>Budget: 3,500.00</span>
+              <span class="budget-used">48% Used</span>
+            </div>
+            <div class="progress-bar-wrap"><div class="progress-bar" style="width:48%"></div></div>
+            <p class="budget-hint">You are ₹1815.80 away from your monthly limit.</p>
+          </div>
+
+          <!-- Category tabs -->
+          <div class="cat-tabs">
+            <button class="cat-tab active" onclick="setTab(this)">All</button>
+            <button class="cat-tab" onclick="setTab(this)">Food</button>
+            <button class="cat-tab" onclick="setTab(this)">Transport</button>
+            <button class="cat-tab" onclick="setTab(this)">Shopping</button>
+            <button class="cat-tab" onclick="setTab(this)">Bills</button>
+          </div>
+
+          <!-- Category breakdown -->
+          <div class="card-section">
+            <div class="section-row"><span class="section-heading">CATEGORY BREAKDOWN</span><a class="see-link">See Details</a></div>
+            <div class="breakdown-item"><span class="breakdown-name">Housing</span><div class="breakdown-bar-wrap"><div class="breakdown-bar blue" style="width:45%"></div></div><span class="breakdown-val">1,200 (45%)</span></div>
+            <div class="breakdown-item"><span class="breakdown-name">Food</span><div class="breakdown-bar-wrap"><div class="breakdown-bar green" style="width:22%"></div></div><span class="breakdown-val">600 (22%)</span></div>
+            <div class="breakdown-item"><span class="breakdown-name">Leisure</span><div class="breakdown-bar-wrap"><div class="breakdown-bar orange" style="width:15%"></div></div><span class="breakdown-val">400 (15%)</span></div>
+            <div class="breakdown-item"><span class="breakdown-name">Other</span><div class="breakdown-bar-wrap"><div class="breakdown-bar purple" style="width:18%"></div></div><span class="breakdown-val">480 (18%)</span></div>
+          </div>
+
+          <!-- Recent transactions -->
+          <div class="card-section">
+            <div class="section-row"><span class="section-heading">Recent Transactions</span><span class="see-link">Last 5 Activities</span></div>
+            <div class="txn-item"><div class="txn-icon food">☕</div><div class="txn-info"><div class="txn-name">Starbucks Coffee</div><div class="txn-sub">FOOD &amp; DRINK · 10:24 AM</div></div><span class="txn-amt red">₹267</span></div>
+            <div class="txn-item"><div class="txn-icon transport">🚗</div><div class="txn-info"><div class="txn-name">Uber Technologie</div><div class="txn-sub">TRANSPORT · 09:15 AM</div></div><span class="txn-amt red">₹110</span></div>
+            <div class="txn-item"><div class="txn-icon shop">🛍</div><div class="txn-info"><div class="txn-name">Apple Store</div><div class="txn-sub">SHOPPING · YESTERDAY</div></div><span class="txn-amt red">₹2,59,900</span></div>
+            <div class="txn-item"><div class="txn-icon grocery">🛒</div><div class="txn-info"><div class="txn-name">Whole Foods Market</div><div class="txn-sub">GROCERIES · YESTERDAY</div></div><span class="txn-amt red">₹1,288</span></div>
+            <div class="txn-item"><div class="txn-icon bills">⚡</div><div class="txn-info"><div class="txn-name">Electric Utility</div><div class="txn-sub">BILLS · OCT 24</div></div><span class="txn-amt red">₹890</span></div>
+            <button class="btn-outline">View All Transactions</button>
+          </div>
+        </div>
+
+        <!-- Bottom Nav -->
+        <nav class="bottom-nav">
+          <button class="nav-item active" onclick="goTo('page-main')"><span class="nav-icon">💰</span><span>Expenses</span></button>
+          <button class="nav-item" onclick="goTo('page-wealth')"><span class="nav-icon">📈</span><span>Wealth</span></button>
+          <button class="nav-item" onclick="goTo('page-dashboard')"><span class="nav-icon">⊞</span><span>Dashboard</span></button>
+          <button class="nav-item" onclick="goTo('page-goals')"><span class="nav-icon">🎯</span><span>Goals</span></button>
+          <button class="nav-item" onclick="goTo('page-simulation')"><span class="nav-icon">🧪</span><span>Simulation</span></button>
+        </nav>
+      </div>
+
+      <!-- ════════════ PAGE 4 – WEALTH PORTFOLIO ════════════ -->
+      <div class="page" id="page-wealth">
+        <div class="topbar">
+          <button class="menu-btn" onclick="toggleDrawer()">☰</button>
+          <span class="topbar-title">Wealth Portfolio</span>
+          <div class="topbar-actions">
+            <button class="icon-btn">🔍</button>
+            <button class="icon-btn">🔔</button>
+          </div>
+        </div>
+        <div class="scroll-area">
+          <!-- Net worth banner -->
+          <div class="networth-card gradient-blue">
+            <div class="nw-top"><span class="nw-label">AGGREGATE NET WORTH</span><span class="badge-green">+12.4% YOY</span></div>
+            <div class="nw-amount">₹4,28,45,000</div>
+            <div class="nw-actions">
+              <button class="nw-btn">↑ Add Asset</button>
+              <button class="nw-btn outline">Analyze Risk</button>
+            </div>
+          </div>
+
+          <!-- Quick stats -->
+          <div class="quick-stats">
+            <div class="qs-item"><div class="qs-icon">🏦</div><div class="qs-label">BANK BALANCE</div><div class="qs-val">₹12.5L</div><div class="qs-change green">↑ +2.1%</div></div>
+            <div class="qs-item"><div class="qs-icon">📊</div><div class="qs-label">INVESTED</div><div class="qs-val">₹2.85Cr</div><div class="qs-change green">↑ +8.5%</div></div>
+            <div class="qs-item"><div class="qs-icon">💳</div><div class="qs-label">BORROWING</div><div class="qs-val">₹45.2L</div><div class="qs-change red">↓ -1.2%</div></div>
+          </div>
+
+          <!-- Asset Allocation donut -->
+          <div class="card-section">
+            <div class="section-heading">🥧 Asset Allocation</div>
+            <div class="donut-wrap">
+              <svg viewBox="0 0 160 160" width="140" height="140">
+                <circle cx="80" cy="80" r="60" fill="none" stroke="#3b82f6" stroke-width="28" stroke-dasharray="169 283" stroke-dashoffset="0"/>
+                <circle cx="80" cy="80" r="60" fill="none" stroke="#22c55e" stroke-width="28" stroke-dasharray="113 283" stroke-dashoffset="-169"/>
+                <circle cx="80" cy="80" r="60" fill="none" stroke="#f59e0b" stroke-width="28" stroke-dasharray="56 283" stroke-dashoffset="-282"/>
+                <circle cx="80" cy="80" r="60" fill="none" stroke="#ec4899" stroke-width="28" stroke-dasharray="38 283" stroke-dashoffset="-338"/>
+              </svg>
+              <div class="donut-legend">
+                <div class="legend-item"><span class="dot blue"></span>Stocks 45%</div>
+                <div class="legend-item"><span class="dot green"></span>Cash 30%</div>
+                <div class="legend-item"><span class="dot yellow"></span>Gold 15%</div>
+                <div class="legend-item"><span class="dot pink"></span>Crypto 10%</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Active assets -->
+          <div class="card-section">
+            <div class="section-row"><span class="section-heading">ACTIVE ASSETS</span><a class="see-link">View All ›</a></div>
+            <div class="asset-item">
+              <div class="asset-icon blue">📈</div>
+              <div class="asset-info">
+                <div class="asset-name">Bluechip Equity Fund</div>
+                <div class="asset-sub">HDFC Mutual Fund · SIP ACTIVE +₹29K/mo</div>
+              </div>
+              <div class="asset-val">₹24,50,000</div>
+            </div>
+            <div class="asset-item">
+              <div class="asset-icon purple">💻</div>
+              <div class="asset-info">
+                <div class="asset-name">US Tech Giant Stock</div>
+                <div class="asset-sub">Vested Finance · PORTFOLIO HIGHLIGHT</div>
+              </div>
+              <div class="asset-val">₹12,80,450</div>
+            </div>
+          </div>
+
+          <!-- Liabilities -->
+          <div class="card-section">
+            <div class="section-heading red-text">LIABILITIES</div>
+            <div class="asset-item">
+              <div class="asset-icon orange">🏠</div>
+              <div class="asset-info">
+                <div class="asset-name">Home Loan</div>
+                <div class="asset-sub">SBI Banking · NEXT EMI: OCT 05</div>
+              </div>
+              <div class="asset-val red">-₹38,20,000</div>
+            </div>
+            <button class="btn-outline">📄 View Detailed Statements ›</button>
+          </div>
+        </div>
+
+        <nav class="bottom-nav">
+          <button class="nav-item" onclick="goTo('page-main')"><span class="nav-icon">💰</span><span>Expenses</span></button>
+          <button class="nav-item active" onclick="goTo('page-wealth')"><span class="nav-icon">📈</span><span>Wealth</span></button>
+          <button class="nav-item" onclick="goTo('page-dashboard')"><span class="nav-icon">⊞</span><span>Dashboard</span></button>
+          <button class="nav-item" onclick="goTo('page-goals')"><span class="nav-icon">🎯</span><span>Goals</span></button>
+          <button class="nav-item" onclick="goTo('page-simulation')"><span class="nav-icon">🧪</span><span>Simulation</span></button>
+        </nav>
+      </div>
+
+      <!-- ════════════ PAGE 5 – DASHBOARD (Command Center) ════════════ -->
+      <div class="page" id="page-dashboard">
+        <div class="topbar">
+          <button class="menu-btn" onclick="toggleDrawer()">☰</button>
+          <div class="topbar-logo"><span class="logo-mini">⚡</span> Command Center</div>
+          <div class="topbar-actions">
+            <button class="icon-btn">🔍</button>
+            <button class="icon-btn">🔔</button>
+          </div>
+        </div>
+        <div class="scroll-area">
+          <!-- Summary cards row -->
+          <div class="dash-stats-row">
+            <div class="dash-stat-card">
+              <div class="badge-blue">+2.4%</div>
+              <div class="dash-stat-label">MONTHLY SAVINGS</div>
+              <div class="dash-stat-val">34.2%</div>
+            </div>
+            <div class="dash-stat-card">
+              <div class="badge-stable">Stable</div>
+              <div class="dash-stat-label">RISK SCORE</div>
+              <div class="dash-stat-val">72/100</div>
+            </div>
+          </div>
+
+          <!-- Financial Graph / Flow diagram -->
+          <div class="card-section flow-card">
+            <div class="section-row"><span class="section-heading">⚡ Financial Graph</span><span class="live-tag">LIVE FLOW</span></div>
+            <p class="section-subtitle" style="margin-bottom:12px">Visualizing capital movement between accounts</p>
+            <div class="flow-diagram">
+              <div class="flow-center">
+                <div class="flow-node primary">🛡<br/><small>PRIMARY CORE</small><br/><b>₹12.4L</b></div>
+              </div>
+              <div class="flow-arms">
+                <div class="flow-node secondary green-node">📈<br/><small>EQUITIES</small><br/><b>₹24.8L</b></div>
+                <div class="flow-node secondary red-node">💸<br/><small>LIABILITIES</small><br/><b>₹4.2L</b></div>
+                <div class="flow-node secondary blue-node">💧<br/><small>LIQUID CASH</small><br/><b>₹2.5L</b></div>
+              </div>
+              <p class="ai-hint">⚡ System suggesting 12% rebalance to Liquid Cash</p>
+            </div>
+          </div>
+
+          <!-- Net Worth Growth chart -->
+          <div class="card-section">
+            <div class="section-row"><span class="section-heading">Net Worth Growth</span><span class="nwg-val">₹49.5L <span class="green">↑17.8%</span></span></div>
+            <p class="section-subtitle">Performance over last 6 months</p>
+            <div class="chart-wrap">
+              <svg viewBox="0 0 300 100" width="100%" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.4"/>
+                    <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M0,80 L50,70 L100,60 L150,55 L200,40 L250,25 L300,10" fill="none" stroke="#3b82f6" stroke-width="2.5"/>
+                <path d="M0,80 L50,70 L100,60 L150,55 L200,40 L250,25 L300,10 L300,100 L0,100 Z" fill="url(#lineGrad)"/>
+                <circle cx="300" cy="10" r="4" fill="#3b82f6"/>
+              </svg>
+              <div class="chart-labels"><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span></div>
+            </div>
+          </div>
+
+          <!-- Monthly Cashflow bar chart -->
+          <div class="card-section">
+            <div class="section-heading">Monthly Cashflow</div>
+            <p class="section-subtitle">Income vs. Expenses Breakdown</p>
+            <div class="bar-chart">
+              <div class="bar-group"><div class="bar income" style="height:70px"></div><div class="bar expense" style="height:45px"></div><span class="bar-label">Mar</span></div>
+              <div class="bar-group"><div class="bar income" style="height:65px"></div><div class="bar expense" style="height:50px"></div><span class="bar-label">Apr</span></div>
+              <div class="bar-group"><div class="bar income" style="height:75px"></div><div class="bar expense" style="height:40px"></div><span class="bar-label">May</span></div>
+              <div class="bar-group"><div class="bar income" style="height:80px"></div><div class="bar expense" style="height:55px"></div><span class="bar-label">Jun</span></div>
+            </div>
+            <div class="chart-legend"><span class="dot green"></span>Income <span class="dot red" style="margin-left:12px"></span>Expense</div>
+          </div>
+        </div>
+
+        <nav class="bottom-nav">
+          <button class="nav-item" onclick="goTo('page-main')"><span class="nav-icon">💰</span><span>Expenses</span></button>
+          <button class="nav-item" onclick="goTo('page-wealth')"><span class="nav-icon">📈</span><span>Wealth</span></button>
+          <button class="nav-item active" onclick="goTo('page-dashboard')"><span class="nav-icon">⊞</span><span>Dashboard</span></button>
+          <button class="nav-item" onclick="goTo('page-goals')"><span class="nav-icon">🎯</span><span>Goals</span></button>
+          <button class="nav-item" onclick="goTo('page-simulation')"><span class="nav-icon">🧪</span><span>Simulation</span></button>
+        </nav>
+      </div>
+
+      <!-- ════════════ PAGE 6 – GOALS PLANNER ════════════ -->
+      <div class="page" id="page-goals">
+        <div class="topbar">
+          <button class="menu-btn" onclick="toggleDrawer()">☰</button>
+          <span class="topbar-title">AI Strategy</span>
+          <div class="topbar-actions">
+            <button class="icon-btn">🔍</button>
+            <button class="icon-btn">🔔</button>
+          </div>
+        </div>
+        <div class="scroll-area">
+          <h2 class="goals-heading">⚡ Define Your Goals</h2>
+
+          <div class="goals-form card-section">
+            <div class="field-group">
+              <label class="field-label">GOAL NAME</label>
+              <input class="field-input" type="text" value="Luxury Retirement" id="goalNameInput"/>
+            </div>
+            <div class="goals-row">
+              <div class="field-group half">
+                <label class="field-label">TARGET (CR)</label>
+                <input class="field-input" type="number" value="10" id="goalTargetInput"/>
+              </div>
+              <div class="field-group half">
+                <label class="field-label">TIMEFRAME</label>
+                <input class="field-input" type="text" value="📅 10 Years" id="goalTimeframeInput"/>
+              </div>
+            </div>
+            <div class="risk-labels"><span>AGGRESSIVE</span><span>CONSERVATIVE</span></div>
+            <input type="range" class="risk-slider" min="0" max="1" value="0" id="goalRiskSlider"/>
+            <button class="btn-primary" onclick="recalculate()">⚡ RE-CALCULATE AI PATH</button>
+          </div>
+
+          <!-- Projected growth chart -->
+          <div class="card-section">
+            <div class="section-row"><span class="section-heading">Projected Growth</span><span class="badge-ai">AI OPTIMIZED</span></div>
+            <p class="section-subtitle">ESTIMATED WEALTH PATH</p>
+            <div class="chart-wrap">
+              <div class="chart-y-labels"><span>₹12C</span><span>₹9C</span><span>₹6C</span><span>₹3C</span><span>₹0C</span></div>
+              <div class="chart-area">
+                <svg viewBox="0 0 280 100" width="100%" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="goalGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.4"/>
+                      <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <!-- AI Optimized path -->
+                  <path d="M0,95 L46,85 L92,70 L138,52 L184,30 L230,12 L280,3" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-dasharray="0"/>
+                  <path d="M0,95 L46,85 L92,70 L138,52 L184,30 L230,12 L280,3 L280,100 L0,100 Z" fill="url(#goalGrad)"/>
+                  <!-- Standard path -->
+                  <path d="M0,95 L46,88 L92,80 L138,68 L184,55 L230,42 L280,30" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6 3"/>
+                  <circle cx="280" cy="3" r="4" fill="#6366f1"/>
+                </svg>
+                <div class="chart-labels"><span>2024</span><span>2026</span><span>2028</span><span>2030</span><span>2032</span><span>2034</span></div>
+              </div>
+            </div>
+            <div class="chart-legend"><span class="dot indigo"></span>AI Optimized &nbsp;<span class="dot gray"></span>Standard Path</div>
+          </div>
+
+          <!-- AI Action Plan -->
+          <div class="card-section">
+            <div class="section-heading">AI Action Plan</div>
+            <div class="action-item">
+              <div class="action-icon blue">📈</div>
+              <div class="action-info">
+                <div class="action-title">MONTHLY SIP TARGET <span class="ext-link">↗</span></div>
+                <div class="action-val">₹1,85,000</div>
+                <div class="action-desc">Increase current SIP by 22% to stay on track for Year 10 target.</div>
+              </div>
+            </div>
+            <div class="action-item">
+              <div class="action-icon green">🎯</div>
+              <div class="action-info">
+                <div class="action-title">ASSET ALLOCATION SHIFT <span class="ext-link">↗</span></div>
+                <div class="action-val">15% → Mid Cap</div>
+                <div class="action-desc">Shift 15% from Liquid Debt to Mid Cap funds for higher alpha generation.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <nav class="bottom-nav">
+          <button class="nav-item" onclick="goTo('page-main')"><span class="nav-icon">💰</span><span>Expenses</span></button>
+          <button class="nav-item" onclick="goTo('page-wealth')"><span class="nav-icon">📈</span><span>Wealth</span></button>
+          <button class="nav-item" onclick="goTo('page-dashboard')"><span class="nav-icon">⊞</span><span>Dashboard</span></button>
+          <button class="nav-item active" onclick="goTo('page-goals')"><span class="nav-icon">🎯</span><span>Goals</span></button>
+          <button class="nav-item" onclick="goTo('page-simulation')"><span class="nav-icon">🧪</span><span>Simulation</span></button>
+        </nav>
+      </div>
+
+      <!-- ════════════ PAGE 7 – SIMULATION (STRESS TEST LAB) ════════════ -->
+      <div class="page" id="page-simulation">
+        <div class="topbar">
+          <button class="menu-btn" onclick="toggleDrawer()">☰</button>
+          <span class="topbar-title">Stress Test Lab</span>
+          <div class="topbar-actions">
+            <button class="icon-btn">🔍</button>
+            <button class="icon-btn">🔔</button>
+          </div>
+        </div>
+        <div class="scroll-area">
+          <!-- User simulator badge -->
+          <div class="sim-header">
+            <div class="sim-avatar">👤</div>
+            <div class="sim-info"><div class="sim-name">Users Simulator</div><div class="sim-status">⚡ AI Engine Active</div></div>
+          </div>
+
+          <div class="card-section">
+            <div class="section-row"><span class="section-heading">SIMULATION PARAMETERS</span><a class="see-link" onclick="resetSim()">Reset</a></div>
+
+            <div class="param-group">
+              <div class="param-row"><span class="param-name">📊 Income Variance</span><span class="badge-red" id="incVarLabel">-20%</span></div>
+              <input type="range" class="sim-slider" min="-50" max="0" value="-20" id="incomeVariance" oninput="updateSim()"/>
+            </div>
+            <div class="param-group">
+              <div class="param-row"><span class="param-name">📉 Market Volatility</span><span class="badge-red" id="mktVolLabel">-30%</span></div>
+              <input type="range" class="sim-slider" min="-60" max="0" value="-30" id="marketVol" oninput="updateSim()"/>
+            </div>
+            <div class="param-group">
+              <div class="param-row"><span class="param-name">🏠 EMI Escalation</span><span class="badge-orange" id="emiLabel">+15%</span></div>
+              <input type="range" class="sim-slider" min="0" max="50" value="15" id="emiEscalation" oninput="updateSim()"/>
+            </div>
+
+            <div class="scenario-tags">
+              <span class="scenario-tag active" onclick="toggleScenarioTag(this)">⚠ Job Loss</span>
+              <span class="scenario-tag active" onclick="toggleScenarioTag(this)">🏥 Medical Crisis</span>
+            </div>
+          </div>
+
+          <!-- Impact Analysis -->
+          <div class="card-section impact-card critical-bg">
+            <div class="section-row"><span class="section-heading">IMPACT ANALYSIS</span></div>
+            <div class="survival-label">Survival Runway<br/><small>Estimated time before liquidity exhaustion</small></div>
+            <div class="survival-val" id="survivalVal">4.5</div>
+            <div class="survival-unit">MONTHS</div>
+            <div class="survival-bar-wrap">
+              <div class="survival-bar" id="survivalBar" style="width:20%"></div>
+            </div>
+            <div class="survival-scale"><span class="red-text">CRITICAL</span><span class="green-text">STABLE (12M+)</span></div>
+            <div class="impact-note">⚠ If income drops <b>20%</b> and markets crash <b>30%</b>, your current liquid assets will be exhausted by <b>May 2026</b>.</div>
+          </div>
+
+          <!-- Mitigation Strategies -->
+          <div class="card-section">
+            <div class="section-row"><span class="section-heading">MITIGATION STRATEGIES</span><span class="badge-blue">3 Active Suggestions</span></div>
+            <div class="mitigation-item">
+              <div class="mit-icon green">✅</div>
+              <div class="mit-info">
+                <div class="mit-title">Boost Emergency Fund <span class="badge-high">High Impact</span></div>
+                <div class="mit-desc">Increase liquid cash to 5 Lakhs to extend survival runway to 11.2 months.</div>
+                <a class="learn-more" href="#">Learn More →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <nav class="bottom-nav">
+          <button class="nav-item" onclick="goTo('page-main')"><span class="nav-icon">💰</span><span>Expenses</span></button>
+          <button class="nav-item" onclick="goTo('page-wealth')"><span class="nav-icon">📈</span><span>Wealth</span></button>
+          <button class="nav-item" onclick="goTo('page-dashboard')"><span class="nav-icon">⊞</span><span>Dashboard</span></button>
+          <button class="nav-item" onclick="goTo('page-goals')"><span class="nav-icon">🎯</span><span>Goals</span></button>
+          <button class="nav-item active" onclick="goTo('page-simulation')"><span class="nav-icon">🧪</span><span>Simulation</span></button>
+        </nav>
+      </div>
+
+      <!-- ════════════ NAVIGATION DRAWER ════════════ -->
+      <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
+      <div class="drawer" id="navDrawer">
+        <div class="drawer-profile">
+          <div class="drawer-avatar">👤</div>
+          <div class="drawer-edit">✏</div>
+          <div class="drawer-logo-icon">⚡</div>
+        </div>
+        <div class="drawer-name">Ajinkya Sultane</div>
+        <div class="drawer-email">ajinkyasultane@gmail.com</div>
+
+        <div class="drawer-menu">
+          <button class="drawer-item active" onclick="goTo('page-dashboard');toggleDrawer()"><span class="drawer-item-icon">⊞</span> Main Dashboard <span class="drawer-arrow">›</span></button>
+          <button class="drawer-item" onclick="goTo('page-loans');toggleDrawer()"><span class="drawer-item-icon">💳</span> Loans &amp; EMI Tracker <span class="drawer-arrow">›</span></button>
+          <button class="drawer-item" onclick="goTo('page-expenses-limit');toggleDrawer()"><span class="drawer-item-icon">⚙</span> Set Expense Limit <span class="drawer-arrow">›</span></button>
+          <button class="drawer-item" onclick="goTo('page-goals');toggleDrawer()"><span class="drawer-item-icon">⚡</span> AI Smarter Insights <span class="drawer-arrow">›</span></button>
+
+          <div class="drawer-separator">PERSONAL</div>
+          <button class="drawer-item"><span class="drawer-item-icon">👤</span> Account Details <span class="drawer-arrow">›</span></button>
+          <button class="drawer-item"><span class="drawer-item-icon">❓</span> Support &amp; Help <span class="drawer-arrow">›</span></button>
+          <div class="drawer-theme-row">
+            <span class="drawer-item-icon">🌞</span> Theme Appearance
+            <div class="theme-toggle" onclick="toggleTheme()">
+              <button class="theme-btn active" id="lightBtn">☀</button>
+              <button class="theme-btn" id="darkBtn">🌙</button>
+            </div>
+          </div>
+        </div>
+
+        <button class="logout-btn" onclick="goTo('page-login');toggleDrawer()">
+          <span>↩</span> Logout Session
+        </button>
+        <div class="drawer-footer">
+          <div class="arthsetu-brand">⚡ ARTHSEETU</div>
+          <div class="drawer-version">VERSION 2.4.0 · Premium Enterprise Build</div>
+        </div>
+      </div>
+
+      <!-- ════════════ PAGE – ADD LOAN ════════════ -->
+      <div class="page" id="page-loans">
+        <div class="page-header">
+          <button class="back-btn" onclick="goTo('page-main')">←</button>
+          <h2 class="page-title">Add Loan Details</h2>
+          <button class="icon-btn">ⓘ</button>
+        </div>
+        <div class="scroll-area">
+          <p class="section-subtitle">Help us track and optimize your EMIs with AI-driven debt reduction strategies.</p>
+          <h3 class="section-heading">📋 Loan Information</h3>
+
+          <div class="field-group">
+            <label class="field-label">Loan Type</label>
+            <select class="field-input"><option>🏠 Home Loan</option><option>🚗 Car Loan</option><option>📚 Education Loan</option><option>💼 Personal Loan</option></select>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Lender Name</label>
+            <input class="field-input" type="text" placeholder="e.g. HDFC Bank, SBI, ICICI" id="lenderInput"/>
+          </div>
+
+          <h3 class="section-heading">💰 Financial Details</h3>
+          <div class="field-group">
+            <label class="field-label">Total Loan Amount</label>
+            <input class="field-input" type="number" placeholder="₹  0.00" id="loanAmtInput"/>
+          </div>
+          <div class="goals-row">
+            <div class="field-group half">
+              <label class="field-label">Interest Rate</label>
+              <input class="field-input" type="number" placeholder="8.5  %" id="interestInput"/>
+            </div>
+            <div class="field-group half">
+              <label class="field-label">Loan Tenure</label>
+              <input class="field-input" type="number" placeholder="180  mo" id="tenureInput"/>
+            </div>
+          </div>
+
+          <h3 class="section-heading">📅 EMI &amp; Repayment</h3>
+          <div class="field-group">
+            <label class="field-label">EMI Amount</label>
+            <input class="field-input" type="number" placeholder="₹  0.00" id="emiAmtInput"/>
+          </div>
+          <div class="goals-row">
+            <div class="field-group half">
+              <label class="field-label">EMI Due Date</label>
+              <input class="field-input" type="text" placeholder="📅 DD/MM" id="emiDueDateInput"/>
+            </div>
+            <div class="field-group half">
+              <label class="field-label">Start Date</label>
+              <input class="field-input" type="text" placeholder="📅 MM/YYYY" id="loanStartInput"/>
+            </div>
+          </div>
+
+          <button class="btn-primary">Save Loan Details</button>
+          <p class="secure-note">🔒 Data encrypted with 256-bit security</p>
+        </div>
+      </div>
+
+      <!-- ════════════ PAGE – SET EXPENSE LIMIT ════════════ -->
+      <div class="page" id="page-expenses-limit">
+        <div class="page-header">
+          <button class="back-btn" onclick="goTo('page-main')">←</button>
+          <h2 class="page-title">Set Your Spending Limit</h2>
+          <button class="icon-btn">ⓘ</button>
+        </div>
+        <div class="scroll-area">
+          <h3 class="section-heading">Spending Control</h3>
+          <p class="section-subtitle">FinSight AI will alert you when you approach 80% of this limit.</p>
+
+          <div class="cycle-tabs">
+            <button class="cycle-tab" onclick="setCycle(this)">Daily</button>
+            <button class="cycle-tab" onclick="setCycle(this)">Weekly</button>
+            <button class="cycle-tab active" onclick="setCycle(this)">Monthly</button>
+          </div>
+
+          <div class="limit-display">
+            <div class="limit-label">SET LIMIT AMOUNT</div>
+            <div class="limit-amount" id="limitAmount">45000</div>
+            <div class="limit-change green">↓ 12% lower than last month</div>
+          </div>
+
+          <input type="range" class="limit-slider" min="1000" max="200000" value="45000" id="limitSlider" oninput="updateLimit(this.value)"/>
+
+          <div class="card-section ai-rec-card">
+            <div class="ai-rec-title">⚡ AI Smart Recommendation</div>
+            <div class="ai-rec-text">Based on your last 3 months of spending, a monthly limit of <b>₹42,500</b> is ideal to save <b>₹8,000</b> more this month.</div>
+            <a class="learn-more">View detailed analysis ›</a>
+          </div>
+
+          <div class="limit-stats-row">
+            <div class="limit-stat"><div class="limit-stat-label">AVG. MONTHLY</div><div class="limit-stat-val">₹48,200</div></div>
+            <div class="limit-stat"><div class="limit-stat-label">TARGET SAVINGS</div><div class="limit-stat-val green">₹12,500</div></div>
+          </div>
+          <p class="section-subtitle" style="text-align:center; margin-top:8px">Setting a realistic limit helps our AI provide more accurate savings opportunities throughout the week.</p>
+          <button class="btn-primary" onclick="goTo('page-main')">Set Limit &amp; Continue</button>
+        </div>
+      </div>
+
+    </div><!-- end phone-screen -->
+  </div><!-- end phone-frame -->
+
+  <!-- ── SIDE NAV (Desktop) ── -->
+  <div class="side-nav">
+    <div class="sn-logo"><span class="logo-icon-sn">⚡</span><span class="sn-brand">ArthSetu</span></div>
+    <nav class="sn-menu">
+      <button class="sn-item" onclick="goTo('page-login')" id="sn-login">🔑 Login</button>
+      <button class="sn-item" onclick="goTo('page-profile')" id="sn-profile">👤 Profile Setup</button>
+      <button class="sn-item" onclick="goTo('page-main')" id="sn-main">💰 Expenses</button>
+      <button class="sn-item" onclick="goTo('page-wealth')" id="sn-wealth">📈 Wealth</button>
+      <button class="sn-item" onclick="goTo('page-dashboard')" id="sn-dashboard">⊞ Dashboard</button>
+      <button class="sn-item" onclick="goTo('page-goals')" id="sn-goals">🎯 Goals Planner</button>
+      <button class="sn-item" onclick="goTo('page-simulation')" id="sn-simulation">🧪 Simulation</button>
+      <button class="sn-item" onclick="goTo('page-loans')" id="sn-loans">💳 Loans &amp; EMI</button>
+      <button class="sn-item" onclick="goTo('page-expenses-limit')" id="sn-expenses-limit">⚙ Expense Limit</button>
+    </nav>
+    <div class="sn-footer">
+      <div class="sn-version">v2.4.0 Premium</div>
+      <div class="sn-copy">© 2025 ArthSetu</div>
+    </div>
+  </div>
+
+  <!-- ── NOTIFICATION TOAST ── -->
+  <div class="notification-toast" id="notifToast">
+    <div class="notif-header"><span>🔔 Daily Limit Exceeded</span><span class="notif-time">ARTHSETU · JUST NOW</span></div>
+    <div class="notif-body">You have spent <b>₹1,250</b> today, which is <b class="red">₹250 above</b> your daily limit.</div>
+    <div class="notif-ai">⚡ AI Insight: Your food spending is higher than usual today.</div>
+    <button class="notif-btn">⚙ Adjust Limit</button>
+    <div class="notif-dismiss" onclick="dismissToast()">SWIPE TO DISMISS ↓</div>
+  </div>
+
+</div><!-- end app-wrapper -->
+
+<script src="app.js"></script>
+</body>
+</html>
