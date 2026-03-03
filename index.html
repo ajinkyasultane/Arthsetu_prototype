@@ -122,7 +122,8 @@
                         <div class="field-group">
                             <label class="field-label">Risk Preference</label>
                             <div class="risk-labels">
-                                <span>CONSERVATIVE</span><span>MODERATE</span><span>AGGRESSIVE</span></div>
+                                <span>CONSERVATIVE</span><span>MODERATE</span><span>AGGRESSIVE</span>
+                            </div>
                             <input type="range" class="risk-slider" min="0" max="2" value="1" id="riskSlider" />
                         </div>
 
@@ -269,7 +270,7 @@
                                     class="badge-green">+12.4% YOY</span></div>
                             <div class="nw-amount">₹4,28,45,000</div>
                             <div class="nw-actions">
-                                <button class="nw-btn">↑ Add Asset</button>
+                                <button class="nw-btn" onclick="goTo('page-add-asset')">↑ Add Asset</button>
                                 <button class="nw-btn outline">Analyze Risk</button>
                             </div>
                         </div>
@@ -843,7 +844,8 @@
                         <div class="card-section ai-rec-card">
                             <div class="ai-rec-title">⚡ AI Smart Recommendation</div>
                             <div class="ai-rec-text">Based on your last 3 months of spending, a monthly limit of
-                                <b>₹42,500</b> is ideal to save <b>₹8,000</b> more this month.</div>
+                                <b>₹42,500</b> is ideal to save <b>₹8,000</b> more this month.
+                            </div>
                             <a class="learn-more">View detailed analysis ›</a>
                         </div>
 
@@ -863,6 +865,214 @@
                     </div>
                 </div>
 
+                <!-- ════════════ PAGE – ADD ASSET ════════════ -->
+                <div class="page" id="page-add-asset">
+                    <div class="page-header">
+                        <button class="back-btn" onclick="goTo('page-wealth')">←</button>
+                        <h2 class="page-title">Add Asset</h2>
+                        <button class="icon-btn">ⓘ</button>
+                    </div>
+                    <div class="scroll-area">
+                        <p class="section-subtitle">Track and grow your portfolio with AI-powered asset monitoring.</p>
+
+                        <!-- Asset Type Picker -->
+                        <div class="asset-type-grid">
+                            <button class="asset-type-chip active"
+                                onclick="selectAssetType(this,'📈','Equity / Stocks')"><span
+                                    class="at-icon">📈</span><span class="at-label">Stocks</span></button>
+                            <button class="asset-type-chip" onclick="selectAssetType(this,'🏛','Mutual Fund')"><span
+                                    class="at-icon">🏛</span><span class="at-label">Mutual Fund</span></button>
+                            <button class="asset-type-chip" onclick="selectAssetType(this,'🥇','Gold / SGBs')"><span
+                                    class="at-icon">🥇</span><span class="at-label">Gold</span></button>
+                            <button class="asset-type-chip" onclick="selectAssetType(this,'🏠','Real Estate')"><span
+                                    class="at-icon">🏠</span><span class="at-label">Real Estate</span></button>
+                            <button class="asset-type-chip" onclick="selectAssetType(this,'🏦','Fixed Deposit')"><span
+                                    class="at-icon">🏦</span><span class="at-label">FD / RD</span></button>
+                            <button class="asset-type-chip" onclick="selectAssetType(this,'₿','Crypto')"><span
+                                    class="at-icon">₿</span><span class="at-label">Crypto</span></button>
+                            <button class="asset-type-chip" onclick="selectAssetType(this,'💸','Cash / Savings')"><span
+                                    class="at-icon">💸</span><span class="at-label">Cash</span></button>
+                            <button class="asset-type-chip" onclick="selectAssetType(this,'📦','Other')"><span
+                                    class="at-icon">📦</span><span class="at-label">Other</span></button>
+                        </div>
+
+                        <!-- Selected type display -->
+                        <div class="selected-type-banner" id="selectedTypeBanner">
+                            <span id="selectedTypeIcon">📈</span>
+                            <span id="selectedTypeLabel">Equity / Stocks</span>
+                            <span class="badge-ai" style="margin-left:auto">AI Tracking On</span>
+                        </div>
+
+                        <!-- Basic Info -->
+                        <div class="card-section">
+                            <div class="section-heading">📋 Asset Information</div>
+                            <div class="field-group">
+                                <label class="field-label">Asset Name</label>
+                                <input class="field-input" type="text"
+                                    placeholder="e.g. Reliance Industries, HDFC Mid-Cap" id="assetNameInput" />
+                            </div>
+                            <div class="field-group">
+                                <label class="field-label">Ticker / Symbol (optional)</label>
+                                <input class="field-input" type="text" placeholder="e.g. RELIANCE.NS, HDFCMID"
+                                    id="assetTickerInput" />
+                            </div>
+                            <div class="field-group">
+                                <label class="field-label">Platform / Broker</label>
+                                <select class="field-input" id="assetBrokerInput">
+                                    <option value="">Select Platform</option>
+                                    <option>Zerodha</option>
+                                    <option>Groww</option>
+                                    <option>Angel One</option>
+                                    <option>HDFC Securities</option>
+                                    <option>ICICI Direct</option>
+                                    <option>Upstox</option>
+                                    <option>Coin (Zerodha MF)</option>
+                                    <option>ET Money</option>
+                                    <option>Binance / CoinDCX</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Financial Details -->
+                        <div class="card-section">
+                            <div class="section-heading">💰 Financial Details</div>
+                            <div class="goals-row">
+                                <div class="field-group half">
+                                    <label class="field-label">Quantity / Units</label>
+                                    <input class="field-input" type="number" placeholder="0" id="assetQtyInput"
+                                        oninput="calcCurrentVal()" />
+                                </div>
+                                <div class="field-group half">
+                                    <label class="field-label">Buy Price (₹)</label>
+                                    <input class="field-input" type="number" placeholder="0.00" id="assetBuyPriceInput"
+                                        oninput="calcCurrentVal()" />
+                                </div>
+                            </div>
+                            <div class="field-group">
+                                <label class="field-label">Current Market Value (₹)</label>
+                                <div class="value-input-wrap">
+                                    <input class="field-input value-input" type="number" placeholder="0.00"
+                                        id="assetCurrValInput" />
+                                    <button class="fetch-btn" onclick="fetchLivePrice()">⚡ Fetch Live</button>
+                                </div>
+                            </div>
+                            <div class="gain-loss-row" id="gainLossRow" style="display:none">
+                                <div class="gain-box" id="gainBox">
+                                    <span class="gain-label">TOTAL GAIN / LOSS</span>
+                                    <span class="gain-val" id="gainVal">--</span>
+                                </div>
+                                <div class="gain-box">
+                                    <span class="gain-label">RETURNS</span>
+                                    <span class="gain-val" id="gainPct">--</span>
+                                </div>
+                            </div>
+                            <div class="goals-row">
+                                <div class="field-group half">
+                                    <label class="field-label">Purchase Date</label>
+                                    <input class="field-input" type="date" id="assetBuyDateInput" />
+                                </div>
+                                <div class="field-group half">
+                                    <label class="field-label">Asset Category</label>
+                                    <select class="field-input" id="assetCategoryInput">
+                                        <option>Equity</option>
+                                        <option>Debt</option>
+                                        <option>Hybrid</option>
+                                        <option>Gold</option>
+                                        <option>Real Estate</option>
+                                        <option>Alternative</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SIP / Auto-Invest Toggle -->
+                        <div class="card-section sip-card">
+                            <div class="sip-header">
+                                <div>
+                                    <div class="section-heading" style="margin-bottom:2px">📅 SIP / Auto-Invest</div>
+                                    <p class="section-subtitle" style="margin:0">Enable recurring investment for this
+                                        asset</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="sipToggle" onchange="toggleSIP()" />
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="sip-fields" id="sipFields" style="display:none">
+                                <div class="goals-row" style="margin-top:12px">
+                                    <div class="field-group half">
+                                        <label class="field-label">Monthly SIP Amount (₹)</label>
+                                        <input class="field-input" type="number" placeholder="5,000" id="sipAmtInput" />
+                                    </div>
+                                    <div class="field-group half">
+                                        <label class="field-label">SIP Date</label>
+                                        <input class="field-input" type="number" placeholder="Day (1–28)" min="1"
+                                            max="28" id="sipDateInput" />
+                                    </div>
+                                </div>
+                                <div class="field-group">
+                                    <label class="field-label">SIP Duration</label>
+                                    <select class="field-input" id="sipDurationInput">
+                                        <option>12 Months</option>
+                                        <option>24 Months</option>
+                                        <option>36 Months</option>
+                                        <option>60 Months</option>
+                                        <option>Until Goal Achieved</option>
+                                        <option>Indefinite</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Risk & Goal Tagging -->
+                        <div class="card-section">
+                            <div class="section-heading">⚡ Risk &amp; Goal Mapping</div>
+                            <div class="field-group">
+                                <label class="field-label">Risk Level</label>
+                                <div class="risk-chip-row">
+                                    <button class="risk-chip" onclick="selectRisk(this)">Low</button>
+                                    <button class="risk-chip active" onclick="selectRisk(this)">Medium</button>
+                                    <button class="risk-chip" onclick="selectRisk(this)">High</button>
+                                    <button class="risk-chip" onclick="selectRisk(this)">Very High</button>
+                                </div>
+                            </div>
+                            <div class="field-group">
+                                <label class="field-label">Map to Goal (optional)</label>
+                                <select class="field-input" id="assetGoalInput">
+                                    <option value="">— None —</option>
+                                    <option>Luxury Retirement</option>
+                                    <option>Child Education</option>
+                                    <option>Home Purchase</option>
+                                    <option>Emergency Fund</option>
+                                    <option>Travel Fund</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Notes -->
+                        <div class="card-section">
+                            <div class="section-heading">📝 Notes</div>
+                            <textarea class="field-input asset-notes"
+                                placeholder="Add any details, thesis, or reminder about this asset…" id="assetNotes"
+                                rows="3"></textarea>
+                        </div>
+
+                        <!-- AI Insight Preview -->
+                        <div class="card-section ai-rec-card">
+                            <div class="ai-rec-title">⚡ AI Portfolio Insight</div>
+                            <div class="ai-rec-text">Adding this asset will increase your <b>Equity exposure to 52%</b>.
+                                Consider balancing with Debt instruments to maintain your Medium risk profile.</div>
+                            <a class="learn-more">View Portfolio Impact →</a>
+                        </div>
+
+                        <button class="btn-primary" onclick="saveAsset()">💾 Save Asset to Portfolio</button>
+                        <p class="secure-note">🔒 Data encrypted with 256-bit security</p>
+                        <div style="height:16px"></div>
+                    </div>
+                </div>
+                <!-- ════════════ END ADD ASSET ════════════ -->
+
             </div><!-- end phone-screen -->
         </div><!-- end phone-frame -->
 
@@ -877,6 +1087,7 @@
                 <button class="sn-item" onclick="goTo('page-dashboard')" id="sn-dashboard">⊞ Dashboard</button>
                 <button class="sn-item" onclick="goTo('page-goals')" id="sn-goals">🎯 Goals Planner</button>
                 <button class="sn-item" onclick="goTo('page-simulation')" id="sn-simulation">🧪 Simulation</button>
+                <button class="sn-item" onclick="goTo('page-add-asset')" id="sn-add-asset">➕ Add Asset</button>
                 <button class="sn-item" onclick="goTo('page-loans')" id="sn-loans">💳 Loans &amp; EMI</button>
                 <button class="sn-item" onclick="goTo('page-expenses-limit')" id="sn-expenses-limit">⚙ Expense
                     Limit</button>

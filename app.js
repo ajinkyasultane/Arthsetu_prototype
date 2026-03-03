@@ -206,3 +206,92 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, 300);
 });
+/* ────────────────────────────────────
+   ADD ASSET PAGE
+──────────────────────────────────── */
+
+function selectAssetType(el, icon, label) {
+  document.querySelectorAll('.asset-type-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('selectedTypeIcon').textContent = icon;
+  document.getElementById('selectedTypeLabel').textContent = label;
+}
+
+function calcCurrentVal() {
+  const qty = parseFloat(document.getElementById('assetQtyInput').value) || 0;
+  const price = parseFloat(document.getElementById('assetBuyPriceInput').value) || 0;
+  const currVal = document.getElementById('assetCurrValInput');
+  const totalCost = qty * price;
+  if (totalCost > 0 && !currVal.value) {
+    currVal.value = totalCost.toFixed(2);
+  }
+  updateGainLoss();
+}
+
+function updateGainLoss() {
+  const qty = parseFloat(document.getElementById('assetQtyInput').value) || 0;
+  const buy = parseFloat(document.getElementById('assetBuyPriceInput').value) || 0;
+  const curr = parseFloat(document.getElementById('assetCurrValInput').value) || 0;
+  const row = document.getElementById('gainLossRow');
+  if (qty > 0 && buy > 0 && curr > 0) {
+    const cost = qty * buy;
+    const gain = curr - cost;
+    const pct = ((gain / cost) * 100).toFixed(2);
+    const isPos = gain >= 0;
+    document.getElementById('gainVal').textContent = (isPos ? '+' : '') + '₹' + Math.abs(gain).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+    document.getElementById('gainVal').className = 'gain-val ' + (isPos ? 'positive' : 'negative');
+    document.getElementById('gainPct').textContent = (isPos ? '+' : '') + pct + '%';
+    document.getElementById('gainPct').className = 'gain-val ' + (isPos ? 'positive' : 'negative');
+    row.style.display = 'flex';
+  } else {
+    row.style.display = 'none';
+  }
+}
+
+// also recalc when current value changes
+document.addEventListener('DOMContentLoaded', () => {
+  const currValEl = document.getElementById('assetCurrValInput');
+  if (currValEl) currValEl.addEventListener('input', updateGainLoss);
+});
+
+function fetchLivePrice() {
+  const btn = document.querySelector('.fetch-btn');
+  btn.textContent = '⏳ Fetching...';
+  btn.disabled = true;
+  // Simulate a 1.2s fetch
+  setTimeout(() => {
+    const mockPrice = (Math.random() * 4000 + 500).toFixed(2);
+    document.getElementById('assetCurrValInput').value = mockPrice;
+    btn.textContent = '✅ Fetched';
+    btn.disabled = false;
+    updateGainLoss();
+    setTimeout(() => { btn.textContent = '⚡ Fetch Live'; }, 2000);
+  }, 1200);
+}
+
+function toggleSIP() {
+  const on = document.getElementById('sipToggle').checked;
+  document.getElementById('sipFields').style.display = on ? 'block' : 'none';
+}
+
+function selectRisk(el) {
+  document.querySelectorAll('.risk-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function saveAsset() {
+  const name = document.getElementById('assetNameInput').value.trim();
+  if (!name) {
+    showMicroToast('⚠ Please enter asset name');
+    return;
+  }
+  const btn = document.querySelector('#page-add-asset .btn-primary');
+  btn.textContent = '⏳ Saving...';
+  btn.style.opacity = '0.7';
+  setTimeout(() => {
+    btn.textContent = '💾 Save Asset to Portfolio';
+    btn.style.opacity = '1';
+    showMicroToast('✅ ' + name + ' added to portfolio!');
+    setTimeout(() => goTo('page-wealth'), 600);
+  }, 1000);
+}

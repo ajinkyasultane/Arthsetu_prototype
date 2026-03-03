@@ -409,6 +409,7 @@ body::after {
   outline: none;
   transition: border-color .2s, box-shadow .2s;
   font-family: 'Inter', sans-serif;
+  -webkit-appearance: none;
   appearance: none
 }
 
@@ -2092,4 +2093,241 @@ body::after {
   .phone-frame {
     transform: none !important
   }
+}
+
+/* ══════════════════════════════════════════
+   ADD ASSET PAGE
+══════════════════════════════════════════ */
+
+/* Asset type chip grid */
+.asset-type-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.asset-type-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 4px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border);
+  background: #fff;
+  cursor: pointer;
+  transition: all .2s;
+  font-family: 'Inter', sans-serif;
+}
+
+.asset-type-chip:hover {
+  border-color: var(--primary-lt);
+  background: #f0f4ff;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.asset-type-chip.active {
+  border-color: var(--primary);
+  background: linear-gradient(135deg, #eef2ff, #f0f4ff);
+  box-shadow: 0 0 0 3px rgba(59, 91, 219, .12);
+}
+
+.at-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.at-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.asset-type-chip.active .at-label {
+  color: var(--primary);
+}
+
+/* Selected type banner */
+.selected-type-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #eef2ff, #fff);
+  border: 1.5px solid rgba(59, 91, 219, .2);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+#selectedTypeIcon {
+  font-size: 20px;
+}
+
+/* Value input with fetch button */
+.value-input-wrap {
+  display: flex;
+  gap: 8px;
+}
+
+.value-input {
+  flex: 1;
+}
+
+.fetch-btn {
+  padding: 0 12px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+  transition: all .2s;
+  box-shadow: 0 2px 8px rgba(59, 91, 219, .25);
+}
+
+.fetch-btn:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+/* Gain / Loss row */
+.gain-loss-row {
+  display: flex;
+  gap: 8px;
+  margin: 8px 0 16px;
+}
+
+.gain-box {
+  flex: 1;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.gain-label {
+  display: block;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: .5px;
+  margin-bottom: 4px;
+}
+
+.gain-val {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.gain-val.positive {
+  color: var(--green);
+}
+
+.gain-val.negative {
+  color: var(--red);
+}
+
+/* SIP Card */
+.sip-card {
+  border: 1.5px solid rgba(34, 197, 94, .2);
+  background: linear-gradient(135deg, #f0fdf4, #fff);
+}
+
+.sip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Toggle Switch */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: #cbd5e1;
+  border-radius: 26px;
+  cursor: pointer;
+  transition: background .25s;
+}
+
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform .25s;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .2);
+}
+
+.toggle-switch input:checked+.toggle-slider {
+  background: var(--green);
+}
+
+.toggle-switch input:checked+.toggle-slider::before {
+  transform: translateX(20px);
+}
+
+/* Risk chips */
+.risk-chip-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.risk-chip {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: #fff;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+  font-family: 'Inter', sans-serif;
+}
+
+.risk-chip:hover {
+  border-color: var(--primary-lt);
+}
+
+.risk-chip.active {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 2px 10px rgba(59, 91, 219, .3);
+}
+
+/* Notes textarea */
+.asset-notes {
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.5;
 }
