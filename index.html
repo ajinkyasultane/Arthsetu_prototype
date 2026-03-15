@@ -60,12 +60,47 @@
                             </div>
                         </div>
 
-                        <button class="btn-primary" id="loginBtn" onclick="goTo('page-profile')">
+                        <button class="btn-primary" id="loginBtn" onclick="goTo('page-otp')">
                             Enter Details to Continue
                         </button>
                         <p class="secure-note">🔒 END-TO-END ENCRYPTED CONNECTION</p>
                         <p class="tos-note">By continuing, you agree to our <a href="#">Terms of Service</a> and <a
                                 href="#">Privacy Policy</a></p>
+                    </div>
+                </div>
+
+                <!-- ════════════ PAGE 1.5 – OTP VERIFICATION ════════════ -->
+                <div class="page" id="page-otp">
+                    <div class="page-header">
+                        <button class="back-btn" onclick="goTo('page-login')">←</button>
+                        <h2 class="page-title">Verify OTP</h2>
+                    </div>
+                    <div class="scroll-area">
+                        <p class="otp-subtitle">We've sent a verification code to your mobile number</p>
+                        <div class="otp-phone-display" id="otpPhoneDisplay">+91 98765 43210</div>
+
+                        <div class="otp-container">
+                            <input class="otp-input" type="text" maxlength="1" placeholder="0" id="otp1" onkeyup="moveToNext(this, 'otp2')" />
+                            <input class="otp-input" type="text" maxlength="1" placeholder="0" id="otp2" onkeyup="moveToNext(this, 'otp3')" />
+                            <input class="otp-input" type="text" maxlength="1" placeholder="0" id="otp3" onkeyup="moveToNext(this, 'otp4')" />
+                            <input class="otp-input" type="text" maxlength="1" placeholder="0" id="otp4" onkeyup="moveToNext(this, 'otp5')" />
+                            <input class="otp-input" type="text" maxlength="1" placeholder="0" id="otp5" onkeyup="moveToNext(this, 'otp6')" />
+                            <input class="otp-input" type="text" maxlength="1" placeholder="0" id="otp6" onkeyup="handleLastOtp(this)" />
+                        </div>
+
+                        <button class="btn-primary" id="verifyOtpBtn" onclick="verifyOtp()">
+                            Verify & Continue
+                        </button>
+
+                        <div class="otp-timer">
+                            <span id="timerText">Resend code in 30s</span>
+                        </div>
+
+                        <button class="btn-link" id="resendBtn" style="display:none;" onclick="resendOtp()">
+                            ↻ Resend OTP
+                        </button>
+
+                        <p class="otp-help">Didn't receive the code? <a href="#">Change phone number</a></p>
                     </div>
                 </div>
 
@@ -445,48 +480,42 @@
                             </div>
                         </div>
 
-                        <!-- Cashflow bar chart with period dropdown -->
+                        <!-- Monthly Cashflow bar chart -->
                         <div class="card-section">
-                            <div class="section-row" style="align-items:flex-start; gap:8px">
-                                <div>
-                                    <div class="section-heading" style="margin-bottom:2px">Cashflow Analysis</div>
-                                    <p class="section-subtitle" id="cashflowSubtitle" style="margin:0">Income vs. Expenses · Monthly View</p>
+                            <div class="section-heading">Monthly Cashflow</div>
+                            <p class="section-subtitle">Income vs. Expenses Breakdown</p>
+                            <div class="bar-chart">
+                                <div class="bar-group">
+                                    <div class="bars-stack">
+                                        <div class="bar income" style="--h:70px"></div>
+                                        <div class="bar expense" style="--h:45px"></div>
+                                    </div>
+                                    <span class="bar-label">Mar</span>
                                 </div>
-                                <select class="period-select" id="cashflowPeriod" onchange="updateCashflowChart()">
-                                    <option value="daily">📅 Daily</option>
-                                    <option value="monthly" selected>📆 Monthly</option>
-                                    <option value="quarterly">📊 Quarterly</option>
-                                    <option value="yearly">📈 Yearly</option>
-                                </select>
-                            </div>
-
-                            <!-- Totals summary strip -->
-                            <div class="cf-totals-row">
-                                <div class="cf-total-item">
-                                    <span class="cf-total-label">TOTAL INCOME</span>
-                                    <span class="cf-total-val green-text" id="cfTotalIncome">₹3,04,000</span>
+                                <div class="bar-group">
+                                    <div class="bars-stack">
+                                        <div class="bar income" style="--h:65px"></div>
+                                        <div class="bar expense" style="--h:50px"></div>
+                                    </div>
+                                    <span class="bar-label">Apr</span>
                                 </div>
-                                <div class="cf-total-divider"></div>
-                                <div class="cf-total-item">
-                                    <span class="cf-total-label">TOTAL EXPENSES</span>
-                                    <span class="cf-total-val red-text" id="cfTotalExpense">₹1,90,000</span>
+                                <div class="bar-group">
+                                    <div class="bars-stack">
+                                        <div class="bar income" style="--h:75px"></div>
+                                        <div class="bar expense" style="--h:40px"></div>
+                                    </div>
+                                    <span class="bar-label">May</span>
                                 </div>
-                                <div class="cf-total-divider"></div>
-                                <div class="cf-total-item">
-                                    <span class="cf-total-label">NET SAVINGS</span>
-                                    <span class="cf-total-val blue-text" id="cfNetSavings">₹1,14,000</span>
+                                <div class="bar-group">
+                                    <div class="bars-stack">
+                                        <div class="bar income" style="--h:80px"></div>
+                                        <div class="bar expense" style="--h:55px"></div>
+                                    </div>
+                                    <span class="bar-label">Jun</span>
                                 </div>
                             </div>
-
-                            <!-- Bar chart area -->
-                            <div class="bar-chart" id="cashflowBars">
-                                <!-- filled by JS -->
-                            </div>
-                            <div class="chart-legend">
-                                <span class="dot green"></span>Income
-                                <span class="dot red" style="margin-left:12px"></span>Expense
-                                <span class="cf-savings-badge" id="cfSavingsBadge">💹 37.5% Saved</span>
-                            </div>
+                            <div class="chart-legend"><span class="dot green"></span>Income <span class="dot red"
+                                    style="margin-left:12px"></span>Expense</div>
                         </div>
                     </div>
 
@@ -616,7 +645,7 @@
                 <div class="page" id="page-simulation">
                     <div class="topbar">
                         <button class="menu-btn" onclick="toggleDrawer()">☰</button>
-                        <span class="topbar-title">Stress Test Lab</span>
+                        <span class="topbar-title">Simulations</span>
                         <div class="topbar-actions">
                             <button class="icon-btn">🔍</button>
                             <button class="icon-btn">🔔</button>
@@ -816,7 +845,7 @@
                             </div>
                         </div>
 
-                        <button class="btn-primary">Save Loan Details</button>
+                        <button class="btn-primary" onclick="goTo('page-main')">Save Loan Details</button>
                         <p class="secure-note">🔒 Data encrypted with 256-bit security</p>
                     </div>
                 </div>
@@ -830,7 +859,7 @@
                     </div>
                     <div class="scroll-area">
                         <h3 class="section-heading">Spending Control</h3>
-                        <p class="section-subtitle">FinSight AI will alert you when you approach 80% of this limit.</p>
+                        <p class="section-subtitle">ArthSetu AI will alert you when you approach 80% of this limit.</p>
 
                         <div class="cycle-tabs">
                             <button class="cycle-tab" onclick="setCycle(this)">Daily</button>

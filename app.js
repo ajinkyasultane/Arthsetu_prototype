@@ -18,6 +18,30 @@ function goTo(pageId) {
     next.classList.add('active');
     currentPage = pageId;
     updateSideNav(pageId);
+    
+    // Start OTP timer when navigating to OTP page
+    if (pageId === 'page-otp') {
+      otpTimer = 30;
+      clearOtpInputs();
+      document.getElementById('resendBtn').style.display = 'none';
+      document.getElementById('timerText').style.display = 'inline';
+      startOtpTimer();
+      // Focus first OTP input
+      setTimeout(() => {
+        document.getElementById('otp1').focus();
+      }, 100);
+      
+      // Display the phone number or email used for OTP
+      const mobileInput = document.getElementById('mobileInput').value;
+      const emailInput = document.getElementById('emailInput').value;
+      const phoneDisplay = document.getElementById('otpPhoneDisplay');
+      
+      if (mobileInput) {
+        phoneDisplay.textContent = '+91 ' + mobileInput;
+      } else if (emailInput) {
+        phoneDisplay.textContent = emailInput;
+      }
+    }
   }, 200);
 }
 
@@ -182,6 +206,103 @@ style.textContent = `
 }
 `;
 document.head.appendChild(style);
+
+/* ────────────────────────────────────
+   OTP VERIFICATION
+──────────────────────────────────── */
+let otpTimer = 30;
+let otpTimerInterval = null;
+
+function moveToNext(current, nextId) {
+  if (current.value.length === 1) {
+    const nextField = document.getElementById(nextId);
+    if (nextField) {
+      nextField.focus();
+    }
+  }
+}
+
+function handleLastOtp(current) {
+  if (current.value.length === 1) {
+    // Auto-trigger verification when last digit is entered
+    // Optional: You can remove this and let user click verify button
+  }
+}
+
+function getOtpValue() {
+  const otp1 = document.getElementById('otp1').value;
+  const otp2 = document.getElementById('otp2').value;
+  const otp3 = document.getElementById('otp3').value;
+  const otp4 = document.getElementById('otp4').value;
+  const otp5 = document.getElementById('otp5').value;
+  const otp6 = document.getElementById('otp6').value;
+  return otp1 + otp2 + otp3 + otp4 + otp5 + otp6;
+}
+
+function clearOtpInputs() {
+  for (let i = 1; i <= 6; i++) {
+    document.getElementById('otp' + i).value = '';
+  }
+}
+
+function verifyOtp() {
+  const otp = getOtpValue();
+  
+  if (otp.length !== 6) {
+    showMicroToast('Please enter all 6 digits');
+    return;
+  }
+  
+  // Simulate OTP verification
+  const btn = document.getElementById('verifyOtpBtn');
+  btn.textContent = '⏳ Verifying...';
+  btn.disabled = true;
+  
+  setTimeout(() => {
+    // For demo: accept any 6-digit code, or you can add specific validation
+    if (otp === '000000') {
+      showMicroToast('Invalid OTP');
+      btn.textContent = 'Verify & Continue';
+      btn.disabled = false;
+    } else {
+      showMicroToast('✓ OTP Verified!');
+      btn.textContent = 'Verify & Continue';
+      btn.disabled = false;
+      // Navigate to profile page
+      setTimeout(() => {
+        goTo('page-profile');
+      }, 600);
+    }
+  }, 1500);
+}
+
+function resendOtp() {
+  clearOtpInputs();
+  otpTimer = 30;
+  document.getElementById('resendBtn').style.display = 'none';
+  document.getElementById('timerText').style.display = 'inline';
+  startOtpTimer();
+  showMicroToast('OTP resent to your mobile number');
+}
+
+function startOtpTimer() {
+  const timerElement = document.getElementById('timerText');
+  
+  if (otpTimerInterval) {
+    clearInterval(otpTimerInterval);
+  }
+  
+  otpTimerInterval = setInterval(() => {
+    otpTimer--;
+    timerElement.textContent = 'Resend code in ' + otpTimer + 's';
+    
+    if (otpTimer <= 0) {
+      clearInterval(otpTimerInterval);
+      document.getElementById('timerText').style.display = 'none';
+      document.getElementById('resendBtn').style.display = 'block';
+    }
+  }, 1000);
+}
 
 /* ────────────────────────────────────
    INIT
