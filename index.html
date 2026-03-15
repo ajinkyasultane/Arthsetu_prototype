@@ -172,7 +172,7 @@
                         <!-- Category breakdown -->
                         <div class="card-section">
                             <div class="section-row"><span class="section-heading">CATEGORY BREAKDOWN</span><a
-                                    class="see-link">See Details</a></div>
+                                    class="see-link" onclick="goTo('page-categories')">See Details</a></div>
                             <div class="breakdown-item"><span class="breakdown-name">Housing</span>
                                 <div class="breakdown-bar-wrap">
                                     <div class="breakdown-bar blue" style="width:45%"></div>
@@ -375,7 +375,7 @@
                 <div class="page" id="page-dashboard">
                     <div class="topbar">
                         <button class="menu-btn" onclick="toggleDrawer()">☰</button>
-                        <div class="topbar-logo"><span class="logo-mini">⚡</span> Command Center</div>
+                        <div class="topbar-logo"><span class="logo-mini">⚡</span> Dashboard</div>
                         <div class="topbar-actions">
                             <button class="icon-btn">🔍</button>
                             <button class="icon-btn">🔔</button>
@@ -445,42 +445,48 @@
                             </div>
                         </div>
 
-                        <!-- Monthly Cashflow bar chart -->
+                        <!-- Cashflow bar chart with period dropdown -->
                         <div class="card-section">
-                            <div class="section-heading">Monthly Cashflow</div>
-                            <p class="section-subtitle">Income vs. Expenses Breakdown</p>
-                            <div class="bar-chart">
-                                <div class="bar-group">
-                                    <div class="bars-stack">
-                                        <div class="bar income" style="--h:70px"></div>
-                                        <div class="bar expense" style="--h:45px"></div>
-                                    </div>
-                                    <span class="bar-label">Mar</span>
+                            <div class="section-row" style="align-items:flex-start; gap:8px">
+                                <div>
+                                    <div class="section-heading" style="margin-bottom:2px">Cashflow Analysis</div>
+                                    <p class="section-subtitle" id="cashflowSubtitle" style="margin:0">Income vs. Expenses · Monthly View</p>
                                 </div>
-                                <div class="bar-group">
-                                    <div class="bars-stack">
-                                        <div class="bar income" style="--h:65px"></div>
-                                        <div class="bar expense" style="--h:50px"></div>
-                                    </div>
-                                    <span class="bar-label">Apr</span>
+                                <select class="period-select" id="cashflowPeriod" onchange="updateCashflowChart()">
+                                    <option value="daily">📅 Daily</option>
+                                    <option value="monthly" selected>📆 Monthly</option>
+                                    <option value="quarterly">📊 Quarterly</option>
+                                    <option value="yearly">📈 Yearly</option>
+                                </select>
+                            </div>
+
+                            <!-- Totals summary strip -->
+                            <div class="cf-totals-row">
+                                <div class="cf-total-item">
+                                    <span class="cf-total-label">TOTAL INCOME</span>
+                                    <span class="cf-total-val green-text" id="cfTotalIncome">₹3,04,000</span>
                                 </div>
-                                <div class="bar-group">
-                                    <div class="bars-stack">
-                                        <div class="bar income" style="--h:75px"></div>
-                                        <div class="bar expense" style="--h:40px"></div>
-                                    </div>
-                                    <span class="bar-label">May</span>
+                                <div class="cf-total-divider"></div>
+                                <div class="cf-total-item">
+                                    <span class="cf-total-label">TOTAL EXPENSES</span>
+                                    <span class="cf-total-val red-text" id="cfTotalExpense">₹1,90,000</span>
                                 </div>
-                                <div class="bar-group">
-                                    <div class="bars-stack">
-                                        <div class="bar income" style="--h:80px"></div>
-                                        <div class="bar expense" style="--h:55px"></div>
-                                    </div>
-                                    <span class="bar-label">Jun</span>
+                                <div class="cf-total-divider"></div>
+                                <div class="cf-total-item">
+                                    <span class="cf-total-label">NET SAVINGS</span>
+                                    <span class="cf-total-val blue-text" id="cfNetSavings">₹1,14,000</span>
                                 </div>
                             </div>
-                            <div class="chart-legend"><span class="dot green"></span>Income <span class="dot red"
-                                    style="margin-left:12px"></span>Expense</div>
+
+                            <!-- Bar chart area -->
+                            <div class="bar-chart" id="cashflowBars">
+                                <!-- filled by JS -->
+                            </div>
+                            <div class="chart-legend">
+                                <span class="dot green"></span>Income
+                                <span class="dot red" style="margin-left:12px"></span>Expense
+                                <span class="cf-savings-badge" id="cfSavingsBadge">💹 37.5% Saved</span>
+                            </div>
                         </div>
                     </div>
 
@@ -1073,6 +1079,316 @@
                 </div>
                 <!-- ════════════ END ADD ASSET ════════════ -->
 
+                <!-- ════════════ PAGE – CATEGORIES DETAIL ════════════ -->
+                <div class="page" id="page-categories">
+                    <div class="page-header">
+                        <button class="back-btn" onclick="goTo('page-main')">←</button>
+                        <h2 class="page-title">Expense Categories</h2>
+                        <button class="icon-btn" onclick="openAddCategory()">＋</button>
+                    </div>
+
+                    <div class="scroll-area">
+                        <p class="section-subtitle">Tap any category to edit its budget limit and details.</p>
+
+                        <!-- Monthly overview mini-card -->
+                        <div class="cat-overview-card gradient-blue">
+                            <div class="co-row">
+                                <div>
+                                    <div class="co-label">TOTAL BUDGET</div>
+                                    <div class="co-val">₹3,500</div>
+                                </div>
+                                <div style="text-align:right">
+                                    <div class="co-label">SPENT SO FAR</div>
+                                    <div class="co-val">₹1,684</div>
+                                </div>
+                            </div>
+                            <div class="progress-bar-wrap" style="margin-top:12px">
+                                <div class="progress-bar" style="width:48%"></div>
+                            </div>
+                            <div class="co-hint">48% of monthly budget used · ₹1,816 remaining</div>
+                        </div>
+
+                        <!-- Category cards list -->
+                        <div id="categoriesList">
+                            <!-- Housing -->
+                            <div class="cat-detail-card" id="catcard-housing" data-cat="housing">
+                                <div class="cdc-header" onclick="toggleCatEdit('housing')">
+                                    <div class="cdc-icon-wrap blue-bg">🏠</div>
+                                    <div class="cdc-info">
+                                        <div class="cdc-name">Housing</div>
+                                        <div class="cdc-meta">₹1,200 spent · 48% of month</div>
+                                    </div>
+                                    <div class="cdc-right">
+                                        <span class="cdc-pct blue-text">₹1,200</span>
+                                        <span class="cdc-chevron" id="chev-housing">›</span>
+                                    </div>
+                                </div>
+                                <div class="cdc-bar-wrap">
+                                    <div class="cdc-bar blue-bar" style="width:45%"></div>
+                                </div>
+                                <div class="cdc-edit-panel" id="edit-housing" style="display:none">
+                                    <div class="cdc-toggle-row">
+                                        <span class="field-label" style="margin:0">Category Active</span>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked onchange="toggleCatActive(this,'housing')">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="field-group" style="margin-top:12px">
+                                        <label class="field-label">Budget Limit (₹)</label>
+                                        <input class="field-input" type="number" value="2000" id="budget-housing" />
+                                    </div>
+                                    <div class="field-group">
+                                        <label class="field-label">Rename Category</label>
+                                        <input class="field-input" type="text" value="Housing" id="name-housing" />
+                                    </div>
+                                    <div class="field-group">
+                                        <label class="field-label">Icon</label>
+                                        <div class="emoji-picker" id="emoji-housing">
+                                            <button class="ep-btn active" onclick="selectEmoji(this,'housing')">🏠</button>
+                                            <button class="ep-btn" onclick="selectEmoji(this,'housing')">🏡</button>
+                                            <button class="ep-btn" onclick="selectEmoji(this,'housing')">🏢</button>
+                                            <button class="ep-btn" onclick="selectEmoji(this,'housing')">🛋️</button>
+                                            <button class="ep-btn" onclick="selectEmoji(this,'housing')">🔑</button>
+                                        </div>
+                                    </div>
+                                    <button class="btn-primary" style="margin-top:4px" onclick="saveCat('housing')">💾 Save Changes</button>
+                                </div>
+                            </div>
+
+                            <!-- Food -->
+                            <div class="cat-detail-card" id="catcard-food" data-cat="food">
+                                <div class="cdc-header" onclick="toggleCatEdit('food')">
+                                    <div class="cdc-icon-wrap green-bg">🍔</div>
+                                    <div class="cdc-info">
+                                        <div class="cdc-name">Food</div>
+                                        <div class="cdc-meta">₹600 spent · 22% of month</div>
+                                    </div>
+                                    <div class="cdc-right">
+                                        <span class="cdc-pct green-text">₹600</span>
+                                        <span class="cdc-chevron" id="chev-food">›</span>
+                                    </div>
+                                </div>
+                                <div class="cdc-bar-wrap">
+                                    <div class="cdc-bar green-bar" style="width:22%"></div>
+                                </div>
+                                <div class="cdc-edit-panel" id="edit-food" style="display:none">
+                                    <div class="cdc-toggle-row">
+                                        <span class="field-label" style="margin:0">Category Active</span>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked onchange="toggleCatActive(this,'food')">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="field-group" style="margin-top:12px">
+                                        <label class="field-label">Budget Limit (₹)</label>
+                                        <input class="field-input" type="number" value="800" id="budget-food" />
+                                    </div>
+                                    <div class="field-group">
+                                        <label class="field-label">Rename Category</label>
+                                        <input class="field-input" type="text" value="Food" id="name-food" />
+                                    </div>
+                                    <div class="field-group">
+                                        <label class="field-label">Icon</label>
+                                        <div class="emoji-picker" id="emoji-food">
+                                            <button class="ep-btn active" onclick="selectEmoji(this,'food')">🍔</button>
+                                            <button class="ep-btn" onclick="selectEmoji(this,'food')">🍕</button>
+                                            <button class="ep-btn" onclick="selectEmoji(this,'food')">☕</button>
+                                            <button class="ep-btn" onclick="selectEmoji(this,'food')">🍱</button>
+                                            <button class="ep-btn" onclick="selectEmoji(this,'food')">🛒</button>
+                                        </div>
+                                    </div>
+                                    <button class="btn-primary" style="margin-top:4px" onclick="saveCat('food')">💾 Save Changes</button>
+                                </div>
+                            </div>
+
+                            <!-- Leisure -->
+                            <div class="cat-detail-card" id="catcard-leisure" data-cat="leisure">
+                                <div class="cdc-header" onclick="toggleCatEdit('leisure')">
+                                    <div class="cdc-icon-wrap orange-bg">🎮</div>
+                                    <div class="cdc-info">
+                                        <div class="cdc-name">Leisure</div>
+                                        <div class="cdc-meta">₹400 spent · 15% of month</div>
+                                    </div>
+                                    <div class="cdc-right">
+                                        <span class="cdc-pct orange-text">₹400</span>
+                                        <span class="cdc-chevron" id="chev-leisure">›</span>
+                                    </div>
+                                </div>
+                                <div class="cdc-bar-wrap">
+                                    <div class="cdc-bar orange-bar" style="width:15%"></div>
+                                </div>
+                                <div class="cdc-edit-panel" id="edit-leisure" style="display:none">
+                                    <div class="cdc-toggle-row">
+                                        <span class="field-label" style="margin:0">Category Active</span>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked onchange="toggleCatActive(this,'leisure')">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="field-group" style="margin-top:12px">
+                                        <label class="field-label">Budget Limit (₹)</label>
+                                        <input class="field-input" type="number" value="500" id="budget-leisure" />
+                                    </div>
+                                    <div class="field-group">
+                                        <label class="field-label">Rename Category</label>
+                                        <input class="field-input" type="text" value="Leisure" id="name-leisure" />
+                                    </div>
+                                    <div class="field-group">
+                                        <label class="field-label">Icon</label>
+                                        <div class="emoji-picker" id="emoji-leisure">
+                                            <button class="ep-btn active" onclick="selectEmoji(this,'leisure')">🎮</button>
+                                            <button class="ep-btn" onclick="selectEmoji(this,'leisure')">🎬</button>
+                                            <button class="ep-btn" onclick="selectEmoji(this,'leisure')">🎵</button>
+                                            <button class="ep-btn" onclick="selectEmoji(this,'leisure')">✈️</button>
+                                            <button class="ep-btn" onclick="selectEmoji(this,'leisure')">🏖️</button>
+                                        </div>
+                                    </div>
+                                    <button class="btn-primary" style="margin-top:4px" onclick="saveCat('leisure')">💾 Save Changes</button>
+                                </div>
+                            </div>
+
+                            <!-- Transport -->
+                            <div class="cat-detail-card" id="catcard-transport" data-cat="transport">
+                                <div class="cdc-header" onclick="toggleCatEdit('transport')">
+                                    <div class="cdc-icon-wrap purple-bg">🚗</div>
+                                    <div class="cdc-info">
+                                        <div class="cdc-name">Transport</div>
+                                        <div class="cdc-meta">₹300 spent · 11% of month</div>
+                                    </div>
+                                    <div class="cdc-right">
+                                        <span class="cdc-pct purple-text">₹300</span>
+                                        <span class="cdc-chevron" id="chev-transport">›</span>
+                                    </div>
+                                </div>
+                                <div class="cdc-bar-wrap">
+                                    <div class="cdc-bar purple-bar" style="width:11%"></div>
+                                </div>
+                                <div class="cdc-edit-panel" id="edit-transport" style="display:none">
+                                    <div class="cdc-toggle-row">
+                                        <span class="field-label" style="margin:0">Category Active</span>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked onchange="toggleCatActive(this,'transport')">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="field-group" style="margin-top:12px">
+                                        <label class="field-label">Budget Limit (₹)</label>
+                                        <input class="field-input" type="number" value="600" id="budget-transport" />
+                                    </div>
+                                    <div class="field-group">
+                                        <label class="field-label">Rename Category</label>
+                                        <input class="field-input" type="text" value="Transport" id="name-transport" />
+                                    </div>
+                                    <div class="field-group">
+                                        <label class="field-label">Icon</label>
+                                        <div class="emoji-picker" id="emoji-transport">
+                                            <button class="ep-btn active" onclick="selectEmoji(this,'transport')">🚗</button>
+                                            <button class="ep-btn" onclick="selectEmoji(this,'transport')">🚕</button>
+                                            <button class="ep-btn" onclick="selectEmoji(this,'transport')">🚌</button>
+                                            <button class="ep-btn" onclick="selectEmoji(this,'transport')">🚇</button>
+                                            <button class="ep-btn" onclick="selectEmoji(this,'transport')">✈️</button>
+                                        </div>
+                                    </div>
+                                    <button class="btn-primary" style="margin-top:4px" onclick="saveCat('transport')">💾 Save Changes</button>
+                                </div>
+                            </div>
+
+                            <!-- Bills -->
+                            <div class="cat-detail-card" id="catcard-bills" data-cat="bills">
+                                <div class="cdc-header" onclick="toggleCatEdit('bills')">
+                                    <div class="cdc-icon-wrap red-bg">⚡</div>
+                                    <div class="cdc-info">
+                                        <div class="cdc-name">Bills</div>
+                                        <div class="cdc-meta">₹890 spent · 25% of month</div>
+                                    </div>
+                                    <div class="cdc-right">
+                                        <span class="cdc-pct red-text">₹890</span>
+                                        <span class="cdc-chevron" id="chev-bills">›</span>
+                                    </div>
+                                </div>
+                                <div class="cdc-bar-wrap">
+                                    <div class="cdc-bar red-bar" style="width:25%"></div>
+                                </div>
+                                <div class="cdc-edit-panel" id="edit-bills" style="display:none">
+                                    <div class="cdc-toggle-row">
+                                        <span class="field-label" style="margin:0">Category Active</span>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked onchange="toggleCatActive(this,'bills')">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="field-group" style="margin-top:12px">
+                                        <label class="field-label">Budget Limit (₹)</label>
+                                        <input class="field-input" type="number" value="1200" id="budget-bills" />
+                                    </div>
+                                    <div class="field-group">
+                                        <label class="field-label">Rename Category</label>
+                                        <input class="field-input" type="text" value="Bills" id="name-bills" />
+                                    </div>
+                                    <div class="field-group">
+                                        <label class="field-label">Icon</label>
+                                        <div class="emoji-picker" id="emoji-bills">
+                                            <button class="ep-btn active" onclick="selectEmoji(this,'bills')">⚡</button>
+                                            <button class="ep-btn" onclick="selectEmoji(this,'bills')">💡</button>
+                                            <button class="ep-btn" onclick="selectEmoji(this,'bills')">💧</button>
+                                            <button class="ep-btn" onclick="selectEmoji(this,'bills')">📱</button>
+                                            <button class="ep-btn" onclick="selectEmoji(this,'bills')">🌐</button>
+                                        </div>
+                                    </div>
+                                    <button class="btn-primary" style="margin-top:4px" onclick="saveCat('bills')">💾 Save Changes</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end categoriesList -->
+
+                        <!-- Add New Category Toggle Panel -->
+                        <div class="card-section add-cat-section" id="addCatSection" style="display:none">
+                            <div class="section-heading">➕ New Category</div>
+                            <div class="field-group">
+                                <label class="field-label">Category Name</label>
+                                <input class="field-input" type="text" placeholder="e.g. Healthcare, Gym…" id="newCatName" />
+                            </div>
+                            <div class="field-group">
+                                <label class="field-label">Budget Limit (₹)</label>
+                                <input class="field-input" type="number" placeholder="0" id="newCatBudget" />
+                            </div>
+                            <div class="field-group">
+                                <label class="field-label">Pick an Icon</label>
+                                <div class="emoji-picker" id="newCatEmoji">
+                                    <button class="ep-btn active" onclick="selectNewEmoji(this)">🏷️</button>
+                                    <button class="ep-btn" onclick="selectNewEmoji(this)">💊</button>
+                                    <button class="ep-btn" onclick="selectNewEmoji(this)">🏋️</button>
+                                    <button class="ep-btn" onclick="selectNewEmoji(this)">📚</button>
+                                    <button class="ep-btn" onclick="selectNewEmoji(this)">🎁</button>
+                                    <button class="ep-btn" onclick="selectNewEmoji(this)">🐾</button>
+                                    <button class="ep-btn" onclick="selectNewEmoji(this)">👗</button>
+                                    <button class="ep-btn" onclick="selectNewEmoji(this)">💄</button>
+                                </div>
+                            </div>
+                            <div class="cdc-toggle-row" style="margin-bottom:16px">
+                                <span class="field-label" style="margin:0">Enable immediately</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="newCatActive" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <button class="btn-primary" onclick="addNewCategory()">✅ Add Category</button>
+                            <button class="btn-outline" onclick="closeAddCategory()">Cancel</button>
+                        </div>
+                        <div style="height:16px"></div>
+                    </div><!-- end scroll-area -->
+
+                    <nav class="bottom-nav">
+                        <button class="nav-item active" onclick="goTo('page-main')"><span class="nav-icon">💰</span><span>Expenses</span></button>
+                        <button class="nav-item" onclick="goTo('page-wealth')"><span class="nav-icon">📈</span><span>Wealth</span></button>
+                        <button class="nav-item" onclick="goTo('page-dashboard')"><span class="nav-icon">⊞</span><span>Dashboard</span></button>
+                        <button class="nav-item" onclick="goTo('page-goals')"><span class="nav-icon">🎯</span><span>Goals</span></button>
+                        <button class="nav-item" onclick="goTo('page-simulation')"><span class="nav-icon">🧪</span><span>Simulation</span></button>
+                    </nav>
+                </div>
+                <!-- ════════════ END CATEGORIES DETAIL ════════════ -->
+
             </div><!-- end phone-screen -->
         </div><!-- end phone-frame -->
 
@@ -1091,6 +1407,7 @@
                 <button class="sn-item" onclick="goTo('page-loans')" id="sn-loans">💳 Loans &amp; EMI</button>
                 <button class="sn-item" onclick="goTo('page-expenses-limit')" id="sn-expenses-limit">⚙ Expense
                     Limit</button>
+                <button class="sn-item" onclick="goTo('page-categories')" id="sn-categories">🏷 Categories</button>
             </nav>
             <div class="sn-footer">
                 <div class="sn-version">v2.4.0 Premium</div>

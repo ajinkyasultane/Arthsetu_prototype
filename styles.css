@@ -1346,6 +1346,100 @@ body::after {
   margin-top: 4px
 }
 
+/* ── Cashflow Period Selector ── */
+.period-select {
+  padding: 6px 10px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary);
+  background: #fff;
+  outline: none;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: border-color .2s, box-shadow .2s;
+  flex-shrink: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%233b5bdb'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 24px;
+}
+.period-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(59,91,219,.12);
+}
+
+/* ── Cashflow Totals Strip ── */
+.cf-totals-row {
+  display: flex;
+  align-items: center;
+  background: #f8fafc;
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  margin: 12px 0 10px;
+  gap: 0;
+}
+.cf-total-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.cf-total-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: .5px;
+}
+.cf-total-val {
+  font-size: 13px;
+  font-weight: 800;
+  transition: all .3s ease;
+}
+.cf-total-divider {
+  width: 1px;
+  height: 28px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+/* ── Bar value labels ── */
+.bar-group {
+  position: relative;
+}
+.bar-val-group {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 2px;
+}
+.bar-val {
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--text-muted);
+  width: 14px;
+  text-align: center;
+  line-height: 1;
+}
+.bar-val.income-val { color: var(--green); }
+.bar-val.expense-val { color: var(--red); }
+
+/* ── Savings badge in legend ── */
+.cf-savings-badge {
+  margin-left: auto;
+  background: rgba(59,91,219,.1);
+  color: var(--primary);
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: all .3s ease;
+}
+
 /* ── Goals ── */
 .goals-heading {
   font-size: 18px;
@@ -2331,3 +2425,228 @@ body::after {
   min-height: 80px;
   line-height: 1.5;
 }
+
+/* ═══════════════════════════════════
+   CATEGORIES DETAIL PAGE
+═══════════════════════════════════ */
+
+/* Overview mini banner */
+.cat-overview-card {
+  margin-bottom: 14px;
+}
+.co-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.co-label {
+  font-size: 10px;
+  font-weight: 700;
+  opacity: .7;
+  letter-spacing: .7px;
+  margin-bottom: 2px;
+}
+.co-val {
+  font-size: 22px;
+  font-weight: 800;
+}
+.co-hint {
+  font-size: 11px;
+  opacity: .7;
+  margin-top: 8px;
+}
+
+/* Category accordion card */
+.cat-detail-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transition: box-shadow .2s;
+}
+.cat-detail-card:hover {
+  box-shadow: var(--shadow-md);
+}
+.cat-detail-card.inactive {
+  opacity: .5;
+}
+
+/* Card header (always visible, clickable) */
+.cdc-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 14px 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.cdc-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.blue-bg   { background: rgba(59,91,219,.12); }
+.green-bg  { background: rgba(34,197,94,.12); }
+.orange-bg { background: rgba(245,158,11,.12); }
+.purple-bg { background: rgba(99,102,241,.12); }
+.red-bg    { background: rgba(239,68,68,.12); }
+
+.cdc-info {
+  flex: 1;
+  min-width: 0;
+}
+.cdc-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+.cdc-meta {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+.cdc-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+.cdc-pct {
+  font-size: 14px;
+  font-weight: 700;
+}
+.blue-text   { color: var(--primary); }
+.green-text  { color: var(--green); }
+.orange-text { color: var(--orange); }
+.purple-text { color: var(--accent); }
+.red-text    { color: var(--red); }
+
+.cdc-chevron {
+  font-size: 18px;
+  color: var(--text-muted);
+  transition: transform .25s;
+  line-height: 1;
+}
+.cdc-chevron.open {
+  transform: rotate(90deg);
+}
+
+/* Mini progress bar inside card */
+.cdc-bar-wrap {
+  height: 3px;
+  background: #f1f5f9;
+  margin: 0 14px 0;
+}
+.cdc-bar {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1s ease;
+}
+.blue-bar   { background: var(--primary); }
+.green-bar  { background: var(--green); }
+.orange-bar { background: var(--orange); }
+.purple-bar { background: var(--accent); }
+.red-bar    { background: var(--red); }
+
+/* Edit accordion panel */
+.cdc-edit-panel {
+  padding: 16px 14px 14px;
+  border-top: 1px solid var(--border);
+  animation: panelSlideDown .2s ease;
+}
+@keyframes panelSlideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Toggle row inside edit panel */
+.cdc-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+}
+
+/* Toggle switch — reuse existing .toggle-switch pattern */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+}
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: #cbd5e1;
+  border-radius: 24px;
+  transition: .3s;
+  cursor: pointer;
+}
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  top: 3px;
+  left: 3px;
+  transition: .3s;
+  box-shadow: 0 1px 4px rgba(0,0,0,.2);
+}
+.toggle-switch input:checked + .toggle-slider {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+}
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(20px);
+}
+
+/* Emoji picker */
+.emoji-picker {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.ep-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .15s;
+}
+.ep-btn:hover {
+  border-color: var(--primary-lt);
+  transform: scale(1.1);
+}
+.ep-btn.active {
+  border-color: var(--primary);
+  background: rgba(59,91,219,.08);
+  box-shadow: 0 0 0 2px rgba(59,91,219,.2);
+}
+
+/* Add category section */
+.add-cat-section {
+  border: 2px dashed var(--border);
+  background: rgba(59,91,219,.03);
+  animation: panelSlideDown .25s ease;
+}

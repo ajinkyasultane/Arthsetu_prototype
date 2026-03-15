@@ -205,7 +205,100 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => { bar.style.width = w; }, 100);
     });
   }, 300);
+
+  // Init cashflow chart (monthly by default)
+  updateCashflowChart();
 });
+
+/* ────────────────────────────────────
+   CASHFLOW CHART – PERIOD SWITCHER
+──────────────────────────────────── */
+
+const cashflowData = {
+  daily: {
+    subtitle: 'Income vs. Expenses · Daily View (This Week)',
+    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    income:  [3200,  2800, 4100,  3500, 5200, 1800, 2200],
+    expense: [1800,  2100, 1500,  2800, 3100, 2400,  900],
+  },
+  monthly: {
+    subtitle: 'Income vs. Expenses · Monthly View (This Year)',
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    income:  [52000, 48000, 55000, 51000, 58000, 60000],
+    expense: [34000, 31000, 33000, 38000, 29000, 25000],
+  },
+  quarterly: {
+    subtitle: 'Income vs. Expenses · Quarterly View',
+    labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+    income:  [155000, 164000, 172000, 185000],
+    expense: [ 98000, 100000, 104000, 111000],
+  },
+  yearly: {
+    subtitle: 'Income vs. Expenses · Yearly View',
+    labels: ['2021', '2022', '2023', '2024'],
+    income:  [560000, 620000, 690000, 740000],
+    expense: [380000, 410000, 440000, 470000],
+  },
+};
+
+function formatBarVal(n) {
+  if (n >= 100000) return (n / 100000).toFixed(1) + 'L';
+  if (n >= 1000)   return (n / 1000).toFixed(0) + 'K';
+  return String(n);
+}
+
+function formatRupee(n) {
+  return '₹' + n.toLocaleString('en-IN');
+}
+
+function updateCashflowChart() {
+  const period = document.getElementById('cashflowPeriod').value;
+  const d = cashflowData[period];
+  if (!d) return;
+
+  // Update subtitle
+  document.getElementById('cashflowSubtitle').textContent = d.subtitle;
+
+  // Compute totals
+  const totalIncome  = d.income.reduce((a, b) => a + b, 0);
+  const totalExpense = d.expense.reduce((a, b) => a + b, 0);
+  const netSavings   = totalIncome - totalExpense;
+  const savingsPct   = ((netSavings / totalIncome) * 100).toFixed(1);
+
+  document.getElementById('cfTotalIncome').textContent  = formatRupee(totalIncome);
+  document.getElementById('cfTotalExpense').textContent = formatRupee(totalExpense);
+  document.getElementById('cfNetSavings').textContent   = formatRupee(netSavings);
+  document.getElementById('cfSavingsBadge').textContent = '💹 ' + savingsPct + '% Saved';
+
+  // Normalise bar heights: max income → 80px
+  const maxVal = Math.max(...d.income, ...d.expense);
+
+  const container = document.getElementById('cashflowBars');
+  container.innerHTML = '';
+
+  d.labels.forEach((label, i) => {
+    const incH  = Math.round((d.income[i]  / maxVal) * 80);
+    const expH  = Math.round((d.expense[i] / maxVal) * 80);
+    const incFmt = formatBarVal(d.income[i]);
+    const expFmt = formatBarVal(d.expense[i]);
+
+    const group = document.createElement('div');
+    group.className = 'bar-group';
+    group.innerHTML = `
+      <div class="bar-val-group">
+        <span class="bar-val income-val">${incFmt}</span>
+        <span class="bar-val expense-val">${expFmt}</span>
+      </div>
+      <div class="bars-stack">
+        <div class="bar income" style="--h:${incH}px; transition:height .5s ease"></div>
+        <div class="bar expense" style="--h:${expH}px; transition:height .5s ease"></div>
+      </div>
+      <span class="bar-label">${label}</span>
+    `;
+    container.appendChild(group);
+  });
+}
+
 /* ────────────────────────────────────
    ADD ASSET PAGE
 ──────────────────────────────────── */
@@ -295,3 +388,128 @@ function saveAsset() {
     setTimeout(() => goTo('page-wealth'), 600);
   }, 1000);
 }
+
+/* ────────────────────────────────────
+   CATEGORIES DETAIL PAGE
+──────────────────────────────────── */
+
+function toggleCatEdit(id) {
+  const panel = document.getElementById('edit-' + id);
+  const chevron = document.getElementById('chev-' + id);
+  const isOpen = panel.style.display !== 'none';
+  panel.style.display = isOpen ? 'none' : 'block';
+  chevron.classList.toggle('open', !isOpen);
+}
+
+function toggleCatActive(checkbox, id) {
+  const card = document.getElementById('catcard-' + id);
+  card.classList.toggle('inactive', !checkbox.checked);
+  showMicroToast(checkbox.checked ? '✅ Category enabled' : '⛔ Category disabled');
+}
+
+function selectEmoji(btn, id) {
+  document.querySelectorAll('#emoji-' + id + ' .ep-btn')
+    .forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // update the icon in the header
+  const wrap = document.querySelector('#catcard-' + id + ' .cdc-icon-wrap');
+  if (wrap) wrap.textContent = btn.textContent;
+}
+
+function saveCat(id) {
+  const name   = document.getElementById('name-' + id).value.trim() || id;
+  const budget = document.getElementById('budget-' + id).value;
+  // Update the displayed name
+  const nameEl = document.querySelector('#catcard-' + id + ' .cdc-name');
+  if (nameEl) nameEl.textContent = name;
+  // Show toast & collapse
+  showMicroToast('💾 ' + name + ' updated!');
+  toggleCatEdit(id);
+}
+
+/* Add New Category panel */
+function openAddCategory() {
+  const sec = document.getElementById('addCatSection');
+  sec.style.display = 'block';
+  sec.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function closeAddCategory() {
+  document.getElementById('addCatSection').style.display = 'none';
+  document.getElementById('newCatName').value = '';
+  document.getElementById('newCatBudget').value = '';
+  // reset emoji selection
+  document.querySelectorAll('#newCatEmoji .ep-btn').forEach((b, i) => {
+    b.classList.toggle('active', i === 0);
+  });
+}
+
+function selectNewEmoji(btn) {
+  document.querySelectorAll('#newCatEmoji .ep-btn')
+    .forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function addNewCategory() {
+  const name   = document.getElementById('newCatName').value.trim();
+  const budget = document.getElementById('newCatBudget').value || '0';
+  const active = document.getElementById('newCatActive').checked;
+  const emojiBtn = document.querySelector('#newCatEmoji .ep-btn.active');
+  const emoji  = emojiBtn ? emojiBtn.textContent : '🏷️';
+
+  if (!name) {
+    showMicroToast('⚠ Please enter a category name');
+    return;
+  }
+
+  const slug = name.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
+  const colors = [
+    { bg:'blue-bg', bar:'blue-bar', txt:'blue-text' },
+    { bg:'green-bg', bar:'green-bar', txt:'green-text' },
+    { bg:'orange-bg', bar:'orange-bar', txt:'orange-text' },
+    { bg:'purple-bg', bar:'purple-bar', txt:'purple-text' },
+    { bg:'red-bg', bar:'red-bar', txt:'red-text' },
+  ];
+  const c = colors[Math.floor(Math.random() * colors.length)];
+
+  const html = `
+<div class="cat-detail-card${active ? '' : ' inactive'}" id="catcard-${slug}" data-cat="${slug}">
+  <div class="cdc-header" onclick="toggleCatEdit('${slug}')">
+    <div class="cdc-icon-wrap ${c.bg}">${emoji}</div>
+    <div class="cdc-info">
+      <div class="cdc-name">${name}</div>
+      <div class="cdc-meta">₹0 spent · 0% of month</div>
+    </div>
+    <div class="cdc-right">
+      <span class="cdc-pct ${c.txt}">₹0</span>
+      <span class="cdc-chevron" id="chev-${slug}">›</span>
+    </div>
+  </div>
+  <div class="cdc-bar-wrap">
+    <div class="cdc-bar ${c.bar}" style="width:0%"></div>
+  </div>
+  <div class="cdc-edit-panel" id="edit-${slug}" style="display:none">
+    <div class="cdc-toggle-row">
+      <span class="field-label" style="margin:0">Category Active</span>
+      <label class="toggle-switch">
+        <input type="checkbox" ${active ? 'checked' : ''} onchange="toggleCatActive(this,'${slug}')">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+    <div class="field-group" style="margin-top:12px">
+      <label class="field-label">Budget Limit (₹)</label>
+      <input class="field-input" type="number" value="${budget}" id="budget-${slug}" />
+    </div>
+    <div class="field-group">
+      <label class="field-label">Rename Category</label>
+      <input class="field-input" type="text" value="${name}" id="name-${slug}" />
+    </div>
+    <button class="btn-primary" style="margin-top:4px" onclick="saveCat('${slug}')">💾 Save Changes</button>
+  </div>
+</div>`;
+
+  document.getElementById('categoriesList').insertAdjacentHTML('beforeend', html);
+  closeAddCategory();
+  showMicroToast('✅ "' + name + '" category added!');
+}
+
