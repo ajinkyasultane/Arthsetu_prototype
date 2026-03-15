@@ -74,7 +74,8 @@ body::after {
   justify-content: center;
   position: relative;
   z-index: 1;
-  padding: 20px
+  padding: 20px;
+  zoom: 0.67;
 }
 
 /* ── Side Nav ── */
@@ -1411,6 +1412,30 @@ body::after {
   gap: 4px
 }
 
+.bar-val-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin-bottom: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  height: 24px;
+  justify-content: flex-end;
+}
+
+.bar-val {
+  line-height: 1;
+}
+
+.bar-val.income-val {
+  color: var(--green);
+}
+
+.bar-val.expense-val {
+  color: var(--red);
+}
+
 .bars-stack {
   display: flex;
   align-items: flex-end;
@@ -1445,6 +1470,63 @@ body::after {
   font-size: 12px;
   color: var(--text-muted);
   margin-top: 4px
+}
+
+/* ── Cashflow Header with Period Selector ── */
+.cashflow-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.cashflow-header .section-subtitle {
+  margin-bottom: 0;
+}
+
+/* ── Cashflow Summary Stats ── */
+.cashflow-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: rgba(59, 91, 219, .08);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(59, 91, 219, .15);
+}
+
+.cf-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cf-stat.badge {
+  grid-column: 1 / -1;
+}
+
+.cf-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cf-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.cf-badge {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  text-align: center;
+  padding: 4px 0;
 }
 
 /* ── Cashflow Period Selector ── */

@@ -482,34 +482,102 @@
 
                         <!-- Monthly Cashflow bar chart -->
                         <div class="card-section">
-                            <div class="section-heading">Monthly Cashflow</div>
-                            <p class="section-subtitle">Income vs. Expenses Breakdown</p>
-                            <div class="bar-chart">
+                            <div class="cashflow-header">
+                                <div>
+                                    <div class="section-heading">Monthly Cashflow</div>
+                                    <p class="section-subtitle" id="cashflowSubtitle">Income vs. Expenses Breakdown</p>
+                                </div>
+                                <select class="period-select" id="cashflowPeriod" onchange="updateCashflowChart()">
+                                    <option value="daily">Daily</option>
+                                    <option value="monthly" selected>Monthly</option>
+                                    <option value="quarterly">Quarterly</option>
+                                    <option value="yearly">Yearly</option>
+                                </select>
+                            </div>
+
+                            <!-- Cashflow summary -->
+                            <div class="cashflow-summary">
+                                <div class="cf-stat">
+                                    <span class="cf-label">Total Income</span>
+                                    <span class="cf-value" id="cfTotalIncome">₹55,00,000</span>
+                                </div>
+                                <div class="cf-stat">
+                                    <span class="cf-label">Total Expense</span>
+                                    <span class="cf-value" id="cfTotalExpense">₹33,00,000</span>
+                                </div>
+                                <div class="cf-stat">
+                                    <span class="cf-label">Net Savings</span>
+                                    <span class="cf-value" id="cfNetSavings">₹22,00,000</span>
+                                </div>
+                                <div class="cf-stat badge">
+                                    <span class="cf-badge" id="cfSavingsBadge">💹 40% Saved</span>
+                                </div>
+                            </div>
+
+                            <div class="bar-chart" id="cashflowBars">
                                 <div class="bar-group">
+                                    <div class="bar-val-group">
+                                        <span class="bar-val income-val">52K</span>
+                                        <span class="bar-val expense-val">34K</span>
+                                    </div>
                                     <div class="bars-stack">
                                         <div class="bar income" style="--h:70px"></div>
                                         <div class="bar expense" style="--h:45px"></div>
                                     </div>
+                                    <span class="bar-label">Jan</span>
+                                </div>
+                                <div class="bar-group">
+                                    <div class="bar-val-group">
+                                        <span class="bar-val income-val">48K</span>
+                                        <span class="bar-val expense-val">31K</span>
+                                    </div>
+                                    <div class="bars-stack">
+                                        <div class="bar income" style="--h:65px"></div>
+                                        <div class="bar expense" style="--h:42px"></div>
+                                    </div>
+                                    <span class="bar-label">Feb</span>
+                                </div>
+                                <div class="bar-group">
+                                    <div class="bar-val-group">
+                                        <span class="bar-val income-val">55K</span>
+                                        <span class="bar-val expense-val">33K</span>
+                                    </div>
+                                    <div class="bars-stack">
+                                        <div class="bar income" style="--h:75px"></div>
+                                        <div class="bar expense" style="--h:44px"></div>
+                                    </div>
                                     <span class="bar-label">Mar</span>
                                 </div>
                                 <div class="bar-group">
+                                    <div class="bar-val-group">
+                                        <span class="bar-val income-val">51K</span>
+                                        <span class="bar-val expense-val">38K</span>
+                                    </div>
                                     <div class="bars-stack">
-                                        <div class="bar income" style="--h:65px"></div>
+                                        <div class="bar income" style="--h:67px"></div>
                                         <div class="bar expense" style="--h:50px"></div>
                                     </div>
                                     <span class="bar-label">Apr</span>
                                 </div>
                                 <div class="bar-group">
+                                    <div class="bar-val-group">
+                                        <span class="bar-val income-val">58K</span>
+                                        <span class="bar-val expense-val">29K</span>
+                                    </div>
                                     <div class="bars-stack">
-                                        <div class="bar income" style="--h:75px"></div>
-                                        <div class="bar expense" style="--h:40px"></div>
+                                        <div class="bar income" style="--h:80px"></div>
+                                        <div class="bar expense" style="--h:39px"></div>
                                     </div>
                                     <span class="bar-label">May</span>
                                 </div>
                                 <div class="bar-group">
+                                    <div class="bar-val-group">
+                                        <span class="bar-val income-val">60K</span>
+                                        <span class="bar-val expense-val">25K</span>
+                                    </div>
                                     <div class="bars-stack">
                                         <div class="bar income" style="--h:80px"></div>
-                                        <div class="bar expense" style="--h:55px"></div>
+                                        <div class="bar expense" style="--h:33px"></div>
                                     </div>
                                     <span class="bar-label">Jun</span>
                                 </div>
@@ -537,7 +605,7 @@
                 <div class="page" id="page-goals">
                     <div class="topbar">
                         <button class="menu-btn" onclick="toggleDrawer()">☰</button>
-                        <span class="topbar-title">AI Strategy</span>
+                        <span class="topbar-title">GoalsPlanner</span>
                         <div class="topbar-actions">
                             <button class="icon-btn">🔍</button>
                             <button class="icon-btn">🔔</button>
