@@ -931,7 +931,10 @@
 
                         <div class="limit-display">
                             <div class="limit-label">SET LIMIT AMOUNT</div>
-                            <div class="limit-amount" id="limitAmount">45000</div>
+                            <div class="limit-input-wrap">
+                                <span class="limit-currency">₹</span>
+                                <input type="number" class="limit-amount-input" id="limitAmountInput" value="45000" placeholder="Enter amount" oninput="updateLimitFromInput(this.value)" />
+                            </div>
                             <div class="limit-change green">↓ 12% lower than last month</div>
                         </div>
 

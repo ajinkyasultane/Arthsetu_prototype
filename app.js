@@ -83,8 +83,15 @@ function setCycle(el) {
    EXPENSE LIMIT SLIDER
 ──────────────────────────────────── */
 function updateLimit(val) {
-  const formatted = parseInt(val).toLocaleString('en-IN');
-  document.getElementById('limitAmount').textContent = formatted;
+  const intVal = parseInt(val);
+  document.getElementById('limitAmountInput').value = intVal;
+}
+
+function updateLimitFromInput(val) {
+  const intVal = parseInt(val) || 0;
+  if (intVal >= 1000 && intVal <= 200000) {
+    document.getElementById('limitSlider').value = intVal;
+  }
 }
 
 /* ────────────────────────────────────
